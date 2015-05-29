@@ -33,12 +33,14 @@ public class Location {
             return locations;
         }
 
-        if (dest.x != this.x && dest.y != this.y && (7 + x - y) == (7 + dest.x - dest.y)) {
-            
-        }
-
-        if (dest.x != this.x && dest.y != this.y && (7 + y - x) == (7 + dest.y - dest.x)) {
-            
+        if (dest.x != this.x && (7 + x - y) == (7 + dest.x - dest.y)) {
+            int distance = Math.abs(dest.x - x);
+            int leastX = Math.min(dest.x, x);
+            int leastY = Math.min(dest.y, y);
+            for (int i = 1; i < distance; i++) {
+                locations.add(new Location(leastX + i, leastY + i));
+            }
+            return locations;
         }
         return locations;
     }
@@ -49,6 +51,26 @@ public class Location {
 
     public int getY() {
         return y;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Location location = (Location) o;
+
+        if (x != location.x) return false;
+        if (y != location.y) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + y;
+        return result;
     }
 
 }
