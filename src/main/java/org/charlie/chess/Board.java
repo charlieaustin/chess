@@ -116,7 +116,7 @@ public class Board {
         return square.getY() >= 0 && square.getY() <= 7 && square.getX() >= 0 && square.getX() <= 7;
     }
 
-    public Square getEmptyOrEnemySquare(Square src, NeighboringSquareDirection neighboringSquareDirection, Player owner) {
+    public Square getEmptySquareOrEnemySquareOrOriginalSquare(Square src, NeighboringSquareDirection neighboringSquareDirection, Player owner) {
         switch (neighboringSquareDirection) {
             case Left: {
                 Square leftMostSquare = new Square(src.getX(), 0);
@@ -146,7 +146,7 @@ public class Board {
                 }
                 return rightMostSquare;
             }
-            case Foward: {
+            case Forward: {
                 Square topMostSquare = new Square(0, src.getY());
                 int distance = Math.abs(src.getX() - topMostSquare.getX());
                 for (int i = 0; i < distance; i++) {
@@ -174,7 +174,7 @@ public class Board {
                 }
                 return bottomMostSquare;
             }
-            case FowardLeft: {
+            case ForwardLeft: {
                 int xDist = Math.abs(src.getX() - 0);
                 int yDist = Math.abs(src.getY() - 0);
                 int distance = Math.min(xDist, yDist);
