@@ -8,6 +8,8 @@ import org.charlie.chess.moves.directions.White;
 import org.charlie.chess.pieces.*;
 import org.charlie.chess.players.Player;
 
+import java.util.Set;
+
 public class Board {
 
     private Piece[][] board;
@@ -99,12 +101,25 @@ public class Board {
         return isLocationOnBoard(square) && getPieceAt(square) != null;
     }
 
+    public boolean isOpponentsPieceAt(Square square, Player owner) {
+        return isPieceAt(square) && !getPieceAt(square).isOwnedBy(owner);
+    }
+
     private boolean isLocationOnBoard(Square square) {
         
         return square.getY() >= 0 && square.getY() <= 7 && square.getX() >= 0 && square.getX() <= 7 ;
     }
 
-    public boolean isMyPieceBetween(Square square, Square oneInFront, Player owner) {
-        return isLocationOnBoard(square);
+    public boolean isPieceBetween(Square src, Square dest) {
+        Set<Square> squares = src.locationsBetween(dest);
+        boolean isBetween = false;
+        for (Square square : squares) {
+            isBetween = isPieceAt(square);
+            if (isBetween) {
+                break;
+            }
+        }
+
+        return isLocationOnBoard(src) && isLocationOnBoard(dest) && isBetween;
     }
 }

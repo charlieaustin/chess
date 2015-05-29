@@ -2,6 +2,7 @@ package org.charlie.chess.moves;
 
 import org.charlie.chess.Board;
 import org.charlie.chess.Square;
+import org.charlie.chess.moves.directions.NeighboringSquareDirection;
 import org.charlie.chess.pieces.Piece;
 
 public class NormalChessMove implements ChessMove {
@@ -54,7 +55,11 @@ public class NormalChessMove implements ChessMove {
         return result;
     }
 
-    public NeighborLocations isLeftOrRightOf(Square square) {
-        return NeighborLocations.NotNeighbor;
+    public boolean isUpgradeMove() {
+        return false;
+    }
+
+    public NeighboringSquareDirection isLeftOrRightOf(Square square) {
+        return NeighboringSquareDirection.NotNeighbor;
     }
 }

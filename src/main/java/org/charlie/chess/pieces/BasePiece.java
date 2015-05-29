@@ -52,4 +52,8 @@ abstract class BasePiece implements Piece {
     public boolean isPawn() {
         return false;
     }
+
+    public boolean isOwnedBy(Player owner) {
+        return this.owner.isSame(owner);
+    }
 }
