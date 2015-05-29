@@ -9,7 +9,6 @@ import org.charlie.chess.moves.directions.White;
 import org.charlie.chess.pieces.*;
 import org.charlie.chess.players.Player;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class Board {
@@ -117,38 +116,134 @@ public class Board {
         return square.getY() >= 0 && square.getY() <= 7 && square.getX() >= 0 && square.getX() <= 7;
     }
 
-    public Set<Square> getFirstNonEmptySquareFrom(Square src, NeighboringSquareDirection neighboringSquareDirection, Player owner) {
+    public Square getEmptyOrEnemySquare(Square src, NeighboringSquareDirection neighboringSquareDirection, Player owner) {
         switch (neighboringSquareDirection) {
-
             case Left: {
-                break;
+                Square leftMostSquare = new Square(src.getX(), 0);
+                int distance = Math.abs(src.getY() - leftMostSquare.getY());
+                for (int i = 1; i < distance; i++) {
+                    Square nextSquare = new Square(src.getX(), src.getY() - i);
+                    if (isOpponentsPieceAt(nextSquare, owner)) {
+                        return nextSquare;
+                    }
+                    if (myPieceIsAt(nextSquare, owner)) {
+                        return new Square(nextSquare.getX(), nextSquare.getY() + 1);
+                    }
+                }
+                return leftMostSquare;
             }
             case Right: {
-                break;
+                Square rightMostSquare = new Square(src.getX(), 7);
+                int distance = Math.abs(src.getY() - rightMostSquare.getY());
+                for (int i = 1; i < distance; i++) {
+                    Square nextSquare = new Square(src.getX(), src.getY() + i);
+                    if (isOpponentsPieceAt(nextSquare, owner)) {
+                        return nextSquare;
+                    }
+                    if (myPieceIsAt(nextSquare, owner)) {
+                        return new Square(nextSquare.getX(), nextSquare.getY() - 1);
+                    }
+                }
+                return rightMostSquare;
             }
             case Foward: {
-                break;
+                Square topMostSquare = new Square(0, src.getY());
+                int distance = Math.abs(src.getX() - topMostSquare.getX());
+                for (int i = 0; i < distance; i++) {
+                    Square nextSquare = new Square(src.getX() - i, src.getY());
+                    if (isOpponentsPieceAt(nextSquare, owner)) {
+                        return nextSquare;
+                    }
+                    if (myPieceIsAt(nextSquare, owner)) {
+                        return new Square(nextSquare.getX() + 1, src.getY());
+                    }
+                }
+                return topMostSquare;
             }
             case Backward: {
-                break;
+                Square bottomMostSquare = new Square(7, src.getY());
+                int distance = Math.abs(src.getX() - bottomMostSquare.getX());
+                for (int i = 0; i < distance; i++) {
+                    Square nextSquare = new Square(src.getX() + 1, src.getY());
+                    if (isOpponentsPieceAt(nextSquare, owner)) {
+                        return nextSquare;
+                    }
+                    if (myPieceIsAt(nextSquare, owner)) {
+                        return new Square(nextSquare.getX() - 1, src.getY());
+                    }
+                }
+                return bottomMostSquare;
             }
             case FowardLeft: {
-                break;
+                int xDist = Math.abs(src.getX() - 0);
+                int yDist = Math.abs(src.getY() - 0);
+                int distance = Math.min(xDist, yDist);
+                Square furthest = new Square(src.getX() - distance, src.getY() - distance);
+                for (int i = 0; i < distance; i++) {
+
+                    Square nextSquare = new Square(src.getX() - i, src.getY() - i);
+                    if (isOpponentsPieceAt(nextSquare, owner)) {
+                        return nextSquare;
+                    }
+                    if (myPieceIsAt(nextSquare, owner)) {
+                        return new Square(nextSquare.getX() + 1, nextSquare.getY() + 1);
+                    }
+                }
+                return furthest;
             }
             case ForwardRight: {
-                break;
+                int xDist = Math.abs(src.getX() - 0);
+                int yDist = Math.abs(src.getY() - 7);
+                int distance = Math.min(xDist, yDist);
+                Square furthest = new Square(src.getX() - distance, src.getY() + distance);
+                for (int i = 0; i < distance; i++) {
+                    Square nextSquare = new Square(src.getX() - i, src.getY() + i);
+                    if (isOpponentsPieceAt(nextSquare, owner)) {
+                        return nextSquare;
+                    }
+                    if (myPieceIsAt(nextSquare, owner)) {
+                        return new Square(nextSquare.getX() + 1, nextSquare.getY() - 1);
+                    }
+                }
+                return furthest;
             }
             case BackwardRight: {
-                break;
+                int xDist = Math.abs(src.getX() - 7);
+                int yDist = Math.abs(src.getY() - 7);
+                int distance = Math.min(xDist, yDist);
+                Square furthest = new Square(src.getX() + distance, src.getY() + distance);
+                for (int i = 0; i < distance; i++) {
+                    Square nextSquare = new Square(src.getX() + i, src.getY() + i);
+                    if (isOpponentsPieceAt(nextSquare, owner)) {
+                        return nextSquare;
+                    }
+                    if (myPieceIsAt(nextSquare, owner)) {
+                        return new Square(nextSquare.getX() - 1, nextSquare.getY() - 1);
+                    }
+                }
+                return furthest;
             }
             case BackwardLeft: {
-                break;
+                int xDist = Math.abs(src.getX() - 7);
+                int yDist = Math.abs(src.getY() - 0);
+                int distance = Math.min(xDist, yDist);
+                Square furthest = new Square(src.getX() + distance, src.getY() - distance);
+                for (int i = 0; i < distance; i++) {
+                    Square nextSquare = new Square(src.getX() + i, src.getY() - i);
+                    if (isOpponentsPieceAt(nextSquare, owner)) {
+                        return nextSquare;
+                    }
+                    if (myPieceIsAt(nextSquare, owner)) {
+                        return new Square(nextSquare.getX() - 1, nextSquare.getY() + 1);
+                    }
+                }
+                return furthest;
             }
             case NotNeighbor: {
-                break;
+                throw new UnsupportedOperationException("Do not call this method withn NotNeighbor");
             }
         }
-        return new HashSet<Square>();
+        throw new UnsupportedOperationException("Should not get here");
     }
 
 
