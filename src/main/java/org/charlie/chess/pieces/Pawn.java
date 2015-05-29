@@ -1,7 +1,7 @@
 package org.charlie.chess.pieces;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.Location;
+import org.charlie.chess.Square;
 import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.moves.NeighborLocations;
 import org.charlie.chess.moves.NormalChessMove;
@@ -11,43 +11,43 @@ import org.charlie.chess.players.Player;
 public class Pawn extends BasePiece {
 
     private boolean takenFirstMove = false;
-    private Location leftDiagonalLocation = new Location(location.getX() + direction.forward(), location.getY() - 1);
-    private Location left = new Location(location.getX(), location.getY() - 1);
-    private Location rightDiagonalLocation = new Location(location.getX() + direction.forward(), location.getY() + 1);
-    private Location right = new Location(location.getX(), location.getY() + 1);
-    private Location oneInFront = new Location(location.getX() + direction.forward(), location.getY());
-    private Location twoInFront = new Location(location.getX() + (2 * direction.forward()), location.getY());
+    private Square leftDiagonalSquare = new Square(square.getX() + direction.forward(), square.getY() - 1);
+    private Square left = new Square(square.getX(), square.getY() - 1);
+    private Square rightDiagonalSquare = new Square(square.getX() + direction.forward(), square.getY() + 1);
+    private Square right = new Square(square.getX(), square.getY() + 1);
+    private Square oneInFront = new Square(square.getX() + direction.forward(), square.getY());
+    private Square twoInFront = new Square(square.getX() + (2 * direction.forward()), square.getY());
 
-    public Pawn(Player owner, Board board, Location location, Direction direction) {
-        super(owner, board, location, direction);
+    public Pawn(Player owner, Board board, Square square, Direction direction) {
+        super(owner, board, square, direction);
     }
 
     @Override
     public PossibleMoves getPossibleMoves() {
         boolean pieceAt = board.isPieceAt(oneInFront);
         PossibleMoves possibleMoves = new PossibleMoves();
-        if (board.isMyPieceBetween(location, oneInFront, owner)) {
+        if (board.isMyPieceBetween(square, oneInFront, owner)) {
 
-            possibleMoves.addMove(new NormalChessMove(location, oneInFront, this));
+            possibleMoves.addMove(new NormalChessMove(square, oneInFront, this));
         }
 
         if (!takenFirstMove) {
-            possibleMoves.addMove(new NormalChessMove(location, twoInFront, this));
+            possibleMoves.addMove(new NormalChessMove(square, twoInFront, this));
         }
 
         if (isEnPassant(NeighborLocations.Right, right)) {
-            possibleMoves.addMove(new NormalChessMove(location, rightDiagonalLocation, this));
+            possibleMoves.addMove(new NormalChessMove(square, rightDiagonalSquare, this));
         }
         if (isEnPassant(NeighborLocations.Left, left)) {
-            possibleMoves.addMove(new NormalChessMove(location, leftDiagonalLocation, this));
+            possibleMoves.addMove(new NormalChessMove(square, leftDiagonalSquare, this));
         }
 
-        if (board.isPieceAt(leftDiagonalLocation)) {
-            possibleMoves.addMove(new NormalChessMove(location, leftDiagonalLocation, this));
+        if (board.isPieceAt(leftDiagonalSquare)) {
+            possibleMoves.addMove(new NormalChessMove(square, leftDiagonalSquare, this));
 
         }
-        if (board.isPieceAt(rightDiagonalLocation)) {
-            possibleMoves.addMove(new NormalChessMove(location, rightDiagonalLocation, this));
+        if (board.isPieceAt(rightDiagonalSquare)) {
+            possibleMoves.addMove(new NormalChessMove(square, rightDiagonalSquare, this));
 
         }
 
@@ -55,7 +55,7 @@ public class Pawn extends BasePiece {
     }
 
     @Override
-    public void move(Location dest) {
+    public void move(Square dest) {
         super.move(dest);
         if (isEnPassant(NeighborLocations.Left, left)) {
             Piece pieceAt = board.getPieceAt(left);
@@ -73,10 +73,10 @@ public class Pawn extends BasePiece {
 
     }
 
-    private boolean isEnPassant(NeighborLocations neighborLocations, Location rightOrLeft) {
+    private boolean isEnPassant(NeighborLocations neighborLocations, Square rightOrLeft) {
         NormalChessMove lastMove = board.getLastMove();
         Piece piece = lastMove.getPiece();
-        NeighborLocations neighborDirection = lastMove.isLeftOrRightOf(location);
+        NeighborLocations neighborDirection = lastMove.isLeftOrRightOf(square);
         return piece.isPawn() && neighborDirection == neighborLocations && board.isPieceAt(rightOrLeft);
     }
 

@@ -1,17 +1,17 @@
 package org.charlie.chess.moves;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.Location;
+import org.charlie.chess.Square;
 import org.charlie.chess.pieces.Piece;
 
 public class NormalChessMove implements ChessMove {
-    private final Location src;
-    private final Location dest;
+    private final Square src;
+    private final Square dest;
 
     private final Piece piece;
 
 
-    public NormalChessMove(Location src, Location dest, Piece piece) {
+    public NormalChessMove(Square src, Square dest, Piece piece) {
         assert (src != null);
         assert (dest != null);
         assert (piece != null);
@@ -54,7 +54,7 @@ public class NormalChessMove implements ChessMove {
         return result;
     }
 
-    public NeighborLocations isLeftOrRightOf(Location location) {
+    public NeighborLocations isLeftOrRightOf(Square square) {
         return NeighborLocations.NotNeighbor;
     }
 }

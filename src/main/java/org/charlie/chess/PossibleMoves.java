@@ -21,7 +21,7 @@ public class PossibleMoves {
     }
 
 
-    public Location getMove() {
+    public Square getMove() {
         return null;
     }
 }

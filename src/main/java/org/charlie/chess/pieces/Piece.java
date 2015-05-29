@@ -1,11 +1,11 @@
 package org.charlie.chess.pieces;
 
-import org.charlie.chess.Location;
+import org.charlie.chess.Square;
 import org.charlie.chess.PossibleMoves;
 
 public interface Piece {
 
-    public Location getLocation();
+    public Square getSquare();
 
     public PossibleMoves getPossibleMoves();
 
@@ -13,7 +13,7 @@ public interface Piece {
 
     public boolean isTaken();
 
-    public void move(Location dest);
+    public void move(Square dest);
 
     public boolean isPawn();
 }

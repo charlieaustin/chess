@@ -29,31 +29,31 @@ public class Board {
         assert (board.length == 8);
         assert (board[0].length == 8);
         
-        board[0][0] = new Rook(white, this, new Location(0, 0), new White());
-        board[0][1] = new Knight(white, this, new Location(0, 1), new White());
-        board[0][2] = new Bishop(white, this, new Location(0, 2), new White());
-        board[0][3] = new Queen(white, this, new Location(0, 3), new White());
-        board[0][4] = new King(white, this, new Location(0, 4), new White());
-        board[0][5] = new Bishop(white, this, new Location(0, 5), new White());
-        board[0][6] = new Knight(white, this, new Location(0, 6), new White());
-        board[0][7] = new Rook(white, this, new Location(0, 7), new White());
+        board[0][0] = new Rook(white, this, new Square(0, 0), new White());
+        board[0][1] = new Knight(white, this, new Square(0, 1), new White());
+        board[0][2] = new Bishop(white, this, new Square(0, 2), new White());
+        board[0][3] = new Queen(white, this, new Square(0, 3), new White());
+        board[0][4] = new King(white, this, new Square(0, 4), new White());
+        board[0][5] = new Bishop(white, this, new Square(0, 5), new White());
+        board[0][6] = new Knight(white, this, new Square(0, 6), new White());
+        board[0][7] = new Rook(white, this, new Square(0, 7), new White());
         Piece[] whitePanwRow = board[1];
         for (int i = 0; i < whitePanwRow.length; i++) {
-            whitePanwRow[i] = new Pawn(white, this, new Location(1, i), new White());
+            whitePanwRow[i] = new Pawn(white, this, new Square(1, i), new White());
         }
 
-        board[7][0] = new Rook(black, this, new Location(7, 0), new Black());
-        board[7][1] = new Knight(black, this, new Location(7, 1), new Black());
-        board[7][2] = new Bishop(black, this, new Location(7, 2), new Black());
-        board[7][3] = new Queen(black, this, new Location(7, 3), new Black());
-        board[7][4] = new King(black, this, new Location(7, 4), new Black());
-        board[7][5] = new Bishop(black, this, new Location(7, 5), new Black());
-        board[7][6] = new Knight(black, this, new Location(7, 6), new Black());
-        board[7][7] = new Rook(black, this, new Location(7, 7), new Black());
+        board[7][0] = new Rook(black, this, new Square(7, 0), new Black());
+        board[7][1] = new Knight(black, this, new Square(7, 1), new Black());
+        board[7][2] = new Bishop(black, this, new Square(7, 2), new Black());
+        board[7][3] = new Queen(black, this, new Square(7, 3), new Black());
+        board[7][4] = new King(black, this, new Square(7, 4), new Black());
+        board[7][5] = new Bishop(black, this, new Square(7, 5), new Black());
+        board[7][6] = new Knight(black, this, new Square(7, 6), new Black());
+        board[7][7] = new Rook(black, this, new Square(7, 7), new Black());
 
         Piece[] blackPawnRow = board[1];
         for (int i = 0; i < blackPawnRow.length; i++) {
-            blackPawnRow[i] = new Pawn(black, this, new Location(1, i), new Black());
+            blackPawnRow[i] = new Pawn(black, this, new Square(1, i), new Black());
         }
     }
 
@@ -71,19 +71,19 @@ public class Board {
         throw new RuntimeException("Should not be called if game is over.");
     }
 
-    public Piece getPieceAt(Location location) {
-        if (isLocationOnBoard(location)) {
-            return board[location.getX()][location.getY()];
+    public Piece getPieceAt(Square square) {
+        if (isLocationOnBoard(square)) {
+            return board[square.getX()][square.getY()];
         }
         return null;
     }
 
-    public void setNullAt(Location location) {
-        board[location.getX()][location.getY()] = null;
+    public void setNullAt(Square square) {
+        board[square.getX()][square.getY()] = null;
     }
 
-    public void setPieceAt(Location location, Piece piece) {
-        board[location.getX()][location.getY()] = piece;
+    public void setPieceAt(Square square, Piece piece) {
+        board[square.getX()][square.getY()] = piece;
     }
 
     public GameResult getResults() {
@@ -95,16 +95,16 @@ public class Board {
         this.hasWinner = true;
     }
 
-    public boolean isPieceAt(Location location) {
-        return isLocationOnBoard(location) && getPieceAt(location) != null;
+    public boolean isPieceAt(Square square) {
+        return isLocationOnBoard(square) && getPieceAt(square) != null;
     }
 
-    private boolean isLocationOnBoard(Location location) {
+    private boolean isLocationOnBoard(Square square) {
         
-        return location.getY() >= 0 && location.getY() <= 7 && location.getX() >= 0 && location.getX() <= 7 ;
+        return square.getY() >= 0 && square.getY() <= 7 && square.getX() >= 0 && square.getX() <= 7 ;
     }
 
-    public boolean isMyPieceBetween(Location location, Location oneInFront, Player owner) {
-        return isLocationOnBoard(location);
+    public boolean isMyPieceBetween(Square square, Square oneInFront, Player owner) {
+        return isLocationOnBoard(square);
     }
 }

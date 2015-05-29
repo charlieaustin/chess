@@ -1,7 +1,7 @@
 package org.charlie.chess.pieces;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.Location;
+import org.charlie.chess.Square;
 import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.moves.directions.Direction;
 import org.charlie.chess.players.Player;
@@ -10,27 +10,27 @@ abstract class BasePiece implements Piece {
     
     protected final Player owner;
     protected final Board board;
-    protected Location location;
+    protected Square square;
     protected final Direction direction;
 
     private boolean isTaken = false;
 
-    protected BasePiece(Player owner, Board board, Location location, Direction direction) {
+    protected BasePiece(Player owner, Board board, Square square, Direction direction) {
         this.owner = owner;
         this.board = board;
-        this.location = location;
+        this.square = square;
         this.direction = direction;
     }
 
     @Override
-    public Location getLocation() {
-        return this.location;
+    public Square getSquare() {
+        return this.square;
     }
 
-    public void move(Location dest) {
-        final Piece piece = board.getPieceAt(location);
+    public void move(Square dest) {
+        final Piece piece = board.getPieceAt(square);
         if (piece == this) {
-            board.setNullAt(location);
+            board.setNullAt(square);
             Piece possiblePiece = board.getPieceAt(dest);
             if (possiblePiece != null) {
                 possiblePiece.markAsTaken();

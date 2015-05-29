@@ -18,7 +18,7 @@ import static org.hamcrest.core.Is.is;
 @RunWith(MockitoJUnitRunner.class)
 public class BoardTest {
 
-    private final Location location = new Location(0, 0);
+    private final Square square = new Square(0, 0);
     @Mock
     public Player movingPlayer;
 
@@ -59,13 +59,13 @@ public class BoardTest {
 
     @Test
     public void testSetNullAt() throws Exception {
-        board.setPieceAt(location, piece);
+        board.setPieceAt(square, piece);
 
-        assertThat(board.getPieceAt(location), is(piece));
+        assertThat(board.getPieceAt(square), is(piece));
 
-        board.setNullAt(location);
+        board.setNullAt(square);
 
-        assertNull(board.getPieceAt(location));
+        assertNull(board.getPieceAt(square));
     }
 
 

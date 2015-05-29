@@ -1,7 +1,7 @@
 package org.charlie.chess.moves;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.Location;
+import org.charlie.chess.Square;
 import org.charlie.chess.pieces.Piece;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,8 +13,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class NormalChessMoveTest {
 
-    private final Location src = new Location(0, 0);
-    private final Location dest = new Location(0, 1);
+    private final Square src = new Square(0, 0);
+    private final Square dest = new Square(0, 1);
     @Mock
     public Piece myPiece;
 
