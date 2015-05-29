@@ -4,5 +4,6 @@ public interface PawnDirection {
 
 
     public int backward();
+
     public int forward();
 }

@@ -4,7 +4,7 @@ import org.charlie.chess.Board;
 import org.charlie.chess.players.NormalPlayer;
 
 public class ForfietChessMove implements ChessMove {
-    
+
     private final NormalPlayer loser;
     private final NormalPlayer winner;
 

@@ -1,7 +1,5 @@
 package org.charlie.chess;
 
-import org.charlie.chess.Board;
-import org.charlie.chess.PlayerPieces;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

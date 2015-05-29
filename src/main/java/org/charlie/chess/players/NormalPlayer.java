@@ -1,8 +1,8 @@
 package org.charlie.chess.players;
 
-import org.charlie.chess.Square;
 import org.charlie.chess.PlayerPieces;
 import org.charlie.chess.PossibleMoves;
+import org.charlie.chess.Square;
 import org.charlie.chess.moves.NormalChessMove;
 import org.charlie.chess.pieces.Piece;
 

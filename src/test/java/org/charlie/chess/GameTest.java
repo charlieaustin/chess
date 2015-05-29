@@ -1,6 +1,5 @@
 package org.charlie.chess;
 
-import org.charlie.chess.players.NormalPlayer;
 import org.charlie.chess.players.Player;
 import org.junit.Test;
 import org.junit.runner.RunWith;

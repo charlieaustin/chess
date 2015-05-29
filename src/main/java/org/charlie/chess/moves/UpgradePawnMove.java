@@ -7,7 +7,7 @@ public class UpgradePawnMove extends NormalChessMove {
     public UpgradePawnMove(Square square, Square dest, Pawn pawn) {
         super(square, dest, pawn);
     }
-    
+
     @Override
     public boolean isUpgradeMove() {
         return true;

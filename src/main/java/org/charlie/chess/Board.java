@@ -14,10 +14,10 @@ import java.util.Set;
 
 public class Board {
 
+    private final Moves moves;
     private Piece[][] board;
     private boolean hasWinner;
     private GameResult gameResult;
-    private final Moves moves;
 
 
     public Board(Piece[][] board, Moves moves) {
@@ -62,7 +62,7 @@ public class Board {
     }
 
     public void move(Player movingPlayer) {
-        final NormalChessMove chessMove = 
+        final NormalChessMove chessMove =
                 movingPlayer.selectMove();
         chessMove.move(this);
         moves.addLastMove(chessMove);

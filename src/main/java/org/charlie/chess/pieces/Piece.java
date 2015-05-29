@@ -1,7 +1,7 @@
 package org.charlie.chess.pieces;
 
-import org.charlie.chess.Square;
 import org.charlie.chess.PossibleMoves;
+import org.charlie.chess.Square;
 import org.charlie.chess.players.Player;
 
 public interface Piece {

@@ -1,9 +1,8 @@
 package org.charlie.chess.pieces;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.Square;
 import org.charlie.chess.PossibleMoves;
-import org.charlie.chess.moves.directions.PawnDirection;
+import org.charlie.chess.Square;
 import org.charlie.chess.players.Player;
 
 public class Queen extends BasePiece {
@@ -15,7 +14,7 @@ public class Queen extends BasePiece {
     @Override
     public PossibleMoves getPossibleMoves() {
         PossibleMoves possibleMoves = new PossibleMoves();
-        
+
 
         return possibleMoves;
     }

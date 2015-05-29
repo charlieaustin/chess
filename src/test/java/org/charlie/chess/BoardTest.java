@@ -19,22 +19,16 @@ import static org.hamcrest.core.Is.is;
 public class BoardTest {
 
     private final Square square = new Square(0, 0);
+    private final Piece[][] internalBoard = new Piece[2][2];
     @Mock
     public Player movingPlayer;
-
     @Mock
     public Piece piece;
-
     @Mock
     public NormalChessMove chessMove;
-
     @Mock
     public Moves moves;
-
     private Board board;
-
-    private final Piece[][] internalBoard = new Piece[2][2];
-
 
     @Before
     public void setUp() {

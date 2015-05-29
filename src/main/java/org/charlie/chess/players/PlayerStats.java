@@ -6,6 +6,13 @@ public class PlayerStats {
     private final int wins;
     private final int losses;
 
+    public PlayerStats(String name, int wins, int losses) {
+        this.name = name;
+        this.wins = wins;
+        this.losses = losses;
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -26,12 +33,5 @@ public class PlayerStats {
         result = 31 * result + wins;
         result = 31 * result + losses;
         return result;
-    }
-
-    public PlayerStats(String name, int wins, int losses) {
-        this.name = name;
-        this.wins = wins;
-        this.losses = losses;
-
     }
 }
