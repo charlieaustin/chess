@@ -60,6 +60,13 @@ public class NormalChessMove implements ChessMove {
     }
 
     public NeighboringSquareDirection isLeftOrRightOf(Square square) {
+        if (dest.getY() == square.getY()) {
+            if (dest.getX() < square.getX()) {
+                return NeighboringSquareDirection.Left;
+            } else {
+                return NeighboringSquareDirection.Right;
+            }
+        }
         return NeighboringSquareDirection.NotNeighbor;
     }
 }
