@@ -16,6 +16,7 @@ public class Game {
 
 
     public void playGame() {
+        board.setUpBoard(white, black);
         Player movingPlayer = white;
         while (board.hasNoWinner()) {
             board.move(movingPlayer);
