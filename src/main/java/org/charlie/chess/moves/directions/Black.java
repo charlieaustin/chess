@@ -1,6 +1,6 @@
 package org.charlie.chess.moves.directions;
 
-public class Black implements Direction {
+public class Black implements PawnDirection {
 
 
     @Override

@@ -3,14 +3,14 @@ package org.charlie.chess.pieces;
 import org.charlie.chess.Board;
 import org.charlie.chess.Square;
 import org.charlie.chess.PossibleMoves;
-import org.charlie.chess.moves.directions.Direction;
+import org.charlie.chess.moves.directions.PawnDirection;
 import org.charlie.chess.players.Player;
 
 public class King extends BasePiece {
 
 
-    public King(Player owner, Board board, Square square, Direction direction) {
-        super(owner, board, square, direction);
+    public King(Player owner, Board board, Square square){
+        super(owner, board, square);
     }
     @Override
     public PossibleMoves getPossibleMoves() {

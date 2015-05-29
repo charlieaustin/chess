@@ -5,23 +5,30 @@ import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.Square;
 import org.charlie.chess.moves.NormalChessMove;
 import org.charlie.chess.moves.UpgradePawnMove;
-import org.charlie.chess.moves.directions.Direction;
 import org.charlie.chess.moves.directions.NeighboringSquareDirection;
+import org.charlie.chess.moves.directions.PawnDirection;
 import org.charlie.chess.players.Player;
 
 public class Pawn extends BasePiece {
 
     private boolean takenFirstMove = false;
-    private Square leftDiagonalSquare = new Square(square.getX() + direction.forward(), square.getY() - 1);
-    private Square left = new Square(square.getX(), square.getY() - 1);
-    private Square rightDiagonalSquare = new Square(square.getX() + direction.forward(), square.getY() + 1);
-    private Square right = new Square(square.getX(), square.getY() + 1);
-    private Square oneInFront = new Square(square.getX() + direction.forward(), square.getY());
-    private Square twoInFront = new Square(square.getX() + (2 * direction.forward()), square.getY());
+    private Square leftDiagonalSquare;
+    private Square left;
+    private Square rightDiagonalSquare;
+    private Square right;
+    private Square oneInFront;
+    private Square twoInFront;
     private int numberOfMoves = 0;
 
-    public Pawn(Player owner, Board board, Square square, Direction direction) {
-        super(owner, board, square, direction);
+    public Pawn(Player owner, Board board, Square square, PawnDirection pawnDirection) {
+        super(owner, board, square);
+
+        leftDiagonalSquare = new Square(square.getX() + pawnDirection.forward(), square.getY() - 1);
+        left = new Square(square.getX(), square.getY() - 1);
+        rightDiagonalSquare = new Square(square.getX() + pawnDirection.forward(), square.getY() + 1);
+        right = new Square(square.getX(), square.getY() + 1);
+        oneInFront = new Square(square.getX() + pawnDirection.forward(), square.getY());
+        twoInFront = new Square(square.getX() + (2 * pawnDirection.forward()), square.getY());
     }
 
     @Override

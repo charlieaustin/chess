@@ -4,5 +4,11 @@ public enum NeighboringSquareDirection {
     
     Left,
     Right,
+    Foward,
+    Backward,
+    FowardLeft,
+    ForwardRight,
+    BackwardRight,
+    BackwardLeft,
     NotNeighbor
 }

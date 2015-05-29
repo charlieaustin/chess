@@ -1,6 +1,6 @@
 package org.charlie.chess.moves.directions;
 
-public interface Direction {
+public interface PawnDirection {
 
 
     public int backward();
