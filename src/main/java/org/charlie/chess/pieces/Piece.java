@@ -19,4 +19,10 @@ public interface Piece {
     public boolean isPawn();
 
     public boolean isOwnedBy(Player owner);
+
+    public boolean isKing();
+
+    public void theKingIPutInCheck(King me);
+
+    public boolean canIKillYou(Square yourLocation);
 }

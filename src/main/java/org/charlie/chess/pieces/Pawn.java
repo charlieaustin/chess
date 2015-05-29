@@ -11,6 +11,8 @@ import org.charlie.chess.players.Player;
 
 public class Pawn extends BasePiece {
 
+    private final King myKing;
+    private final King yourKing;
     private boolean takenFirstMove = false;
     private Square leftDiagonalSquare;
     private Square left;
@@ -20,8 +22,10 @@ public class Pawn extends BasePiece {
     private Square twoInFront;
     private int numberOfMoves = 0;
 
-    public Pawn(Player owner, Board board, Square square, PawnDirection pawnDirection) {
+    public Pawn(Player owner, Board board, Square square, PawnDirection pawnDirection, King myKing, King yourKing) {
         super(owner, board, square);
+        this.myKing = myKing;
+        this.yourKing = yourKing;
 
         leftDiagonalSquare = new Square(square.getX() + pawnDirection.forward(), square.getY() - 1);
         left = new Square(square.getX(), square.getY() - 1);
@@ -104,6 +108,11 @@ public class Pawn extends BasePiece {
     @Override
     public boolean isPawn() {
         return true;
+    }
+
+    @Override
+    public boolean canIKillYou(Square yourLocation) {
+        return false;
     }
 
 }

@@ -11,8 +11,13 @@ import java.util.Set;
 
 public class Queen extends BasePiece {
 
-    public Queen(Player owner, Board board, Square square) {
+    private final King myKing;
+    private final King yourKing;
+
+    public Queen(Player owner, Board board, Square square, King myKing, King yourKing) {
         super(owner, board, square);
+        this.myKing = myKing;
+        this.yourKing = yourKing;
     }
 
     @Override
@@ -22,6 +27,11 @@ public class Queen extends BasePiece {
             addPossibleMoveFor(possibleMoves, neighboringSquareDirection);
         }
         return possibleMoves;
+    }
+
+    @Override
+    public boolean canIKillYou(Square yourLocation) {
+        return false;
     }
 
     private void addPossibleMoveFor(PossibleMoves possibleMoves, NeighboringSquareDirection direction) {

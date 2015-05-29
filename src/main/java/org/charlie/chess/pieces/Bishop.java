@@ -12,8 +12,13 @@ import java.util.Set;
 public class Bishop extends BasePiece {
 
 
-    public Bishop(Player owner, Board board, Square square) {
+    private final King myKing;
+    private final King yourKing;
+
+    public Bishop(Player owner, Board board, Square square, King myKing, King yourKing) {
         super(owner, board, square);
+        this.myKing = myKing;
+        this.yourKing = yourKing;
     }
 
     @Override
@@ -23,6 +28,11 @@ public class Bishop extends BasePiece {
             addPossibleMoveFor(possibleMoves, neighboringSquareDirection);
         }
         return possibleMoves;
+    }
+
+    @Override
+    public boolean canIKillYou(Square yourLocation) {
+        return false;
     }
 
     private void addPossibleMoveFor(PossibleMoves possibleMoves, NeighboringSquareDirection direction) {

@@ -28,9 +28,13 @@ public class Knight extends BasePiece {
         add(leftUp);
         add(leftDown);
     }};
+    private final King myKing;
+    private final King yourKing;
 
-    public Knight(Player owner, Board board, Square square) {
+    public Knight(Player owner, Board board, Square square, King myKing, King yourKing) {
         super(owner, board, square);
+        this.myKing = myKing;
+        this.yourKing = yourKing;
     }
 
     @Override
@@ -42,6 +46,11 @@ public class Knight extends BasePiece {
 
         return possibleMoves;
 
+    }
+
+    @Override
+    public boolean canIKillYou(Square yourLocation) {
+        return false;
     }
 
     private void canMoveToSquare(PossibleMoves possibleMoves, Square dest) {

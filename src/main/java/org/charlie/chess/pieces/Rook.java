@@ -7,14 +7,17 @@ import org.charlie.chess.moves.NormalChessMove;
 import org.charlie.chess.moves.directions.NeighboringSquareDirection;
 import org.charlie.chess.players.Player;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 public class Rook extends BasePiece {
 
-    public Rook(Player owner, Board board, Square square) {
+    private final King myKing;
+    private final King yourKing;
+
+    public Rook(Player owner, Board board, Square square, King myKing, King yourKing) {
         super(owner, board, square);
+        this.myKing = myKing;
+        this.yourKing = yourKing;
     }
 
 
@@ -25,6 +28,11 @@ public class Rook extends BasePiece {
             addPossibleMoveFor(possibleMoves, neighboringSquareDirection);
         }
         return possibleMoves;
+    }
+
+    @Override
+    public boolean canIKillYou(Square yourLocation) {
+        return false;
     }
 
     private void addPossibleMoveFor(PossibleMoves possibleMoves, NeighboringSquareDirection direction) {

@@ -3,6 +3,7 @@ package org.charlie.chess.pieces;
 import org.charlie.chess.Board;
 import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.Square;
+import org.charlie.chess.moves.NormalChessMove;
 import org.charlie.chess.players.Player;
 
 abstract class BasePiece implements Piece {
@@ -12,6 +13,7 @@ abstract class BasePiece implements Piece {
     protected Square square;
 
     private boolean isTaken = false;
+    private King kingIPutInCheck = null;
 
     protected BasePiece(Player owner, Board board, Square square) {
         this.owner = owner;
@@ -33,6 +35,16 @@ abstract class BasePiece implements Piece {
                 possiblePiece.markAsTaken();
             }
             board.setPieceAt(dest, piece);
+            setSquare(dest);
+            PossibleMoves possibleMoves = piece.getPossibleMoves();
+            for (NormalChessMove possibleMove : possibleMoves) {
+                King opponentKingAt = board.getOpponentKingAt(possibleMove.getDest(), owner);
+                if (opponentKingAt != null) {
+                    opponentKingAt.putInCheck(piece);
+                    theKingIPutInCheck(opponentKingAt);
+                }
+            }
+            
         }
     }
 
@@ -50,7 +62,20 @@ abstract class BasePiece implements Piece {
         return false;
     }
 
+    public boolean isKing() {
+        return false;
+    }
+
+    public void setSquare(Square newSquare) {
+        this.square = newSquare;
+    }
+
     public boolean isOwnedBy(Player owner) {
         return this.owner.isSame(owner);
     }
+
+    public void theKingIPutInCheck(King king) {
+        kingIPutInCheck = king;
+    }
+    
 }

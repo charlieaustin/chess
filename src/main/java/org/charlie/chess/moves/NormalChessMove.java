@@ -28,6 +28,10 @@ public class NormalChessMove implements ChessMove {
 
     }
 
+    public Square getDest() {
+        return dest;
+    }
+
     @Override
     public void move(Board board) {
         piece.move(dest);

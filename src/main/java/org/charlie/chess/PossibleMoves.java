@@ -2,11 +2,10 @@ package org.charlie.chess;
 
 import org.charlie.chess.moves.NormalChessMove;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Consumer;
 
-public class PossibleMoves {
+public class PossibleMoves implements Iterable<NormalChessMove>{
 
     private final Set<NormalChessMove> possibleMoves;
 
@@ -23,5 +22,20 @@ public class PossibleMoves {
 
     public Square getMove() {
         return null;
+    }
+
+    @Override
+    public Iterator<NormalChessMove> iterator() {
+        return possibleMoves.iterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super NormalChessMove> action) {
+        possibleMoves.forEach(action);
+    }
+
+    @Override
+    public Spliterator<NormalChessMove> spliterator() {
+        return possibleMoves.spliterator();
     }
 }
