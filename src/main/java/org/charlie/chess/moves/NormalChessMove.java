@@ -2,7 +2,7 @@ package org.charlie.chess.moves;
 
 import org.charlie.chess.Board;
 import org.charlie.chess.Square;
-import org.charlie.chess.moves.directions.NeighboringSquareDirection;
+import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.pieces.Piece;
 
 public class NormalChessMove implements ChessMove {

@@ -3,9 +3,9 @@ package org.charlie.chess;
 import org.charlie.chess.moves.ChessMove;
 import org.charlie.chess.moves.Moves;
 import org.charlie.chess.moves.NormalChessMove;
-import org.charlie.chess.moves.directions.Black;
-import org.charlie.chess.moves.directions.NeighboringSquareDirection;
-import org.charlie.chess.moves.directions.White;
+import org.charlie.chess.directions.Black;
+import org.charlie.chess.directions.NeighboringSquareDirection;
+import org.charlie.chess.directions.White;
 import org.charlie.chess.pieces.*;
 import org.charlie.chess.players.Player;
 

@@ -1,4 +1,4 @@
-package org.charlie.chess.moves.directions;
+package org.charlie.chess.directions;
 
 public interface PawnDirection {
 

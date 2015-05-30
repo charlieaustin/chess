@@ -1,4 +1,4 @@
-package org.charlie.chess.moves.directions;
+package org.charlie.chess.directions;
 
 import java.util.HashSet;
 import java.util.Set;
