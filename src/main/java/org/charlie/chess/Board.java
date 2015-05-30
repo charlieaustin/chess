@@ -78,8 +78,7 @@ public class Board {
     }
 
     public void move(Player movingPlayer) {
-        final NormalChessMove chessMove =
-                movingPlayer.selectMove(copy());
+        final NormalChessMove chessMove = movingPlayer.selectMove(copy());
         chessMove.move(this);
         moves.addLastMove(chessMove);
     }

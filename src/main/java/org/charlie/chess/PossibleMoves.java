@@ -20,7 +20,7 @@ public class PossibleMoves implements Iterable<NormalChessMove> {
     }
 
 
-    public Square getMove() {
+    public NormalChessMove getMove() {
         return null;
     }
 
