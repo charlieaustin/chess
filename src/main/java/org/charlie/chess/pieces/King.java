@@ -3,10 +3,12 @@ package org.charlie.chess.pieces;
 import org.charlie.chess.Board;
 import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.Square;
-import org.charlie.chess.moves.NormalChessMove;
 import org.charlie.chess.players.Player;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 
 public class King extends BasePiece {
 

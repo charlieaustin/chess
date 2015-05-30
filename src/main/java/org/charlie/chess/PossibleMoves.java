@@ -5,7 +5,7 @@ import org.charlie.chess.moves.NormalChessMove;
 import java.util.*;
 import java.util.function.Consumer;
 
-public class PossibleMoves implements Iterable<NormalChessMove>{
+public class PossibleMoves implements Iterable<NormalChessMove> {
 
     private final Set<NormalChessMove> possibleMoves;
 

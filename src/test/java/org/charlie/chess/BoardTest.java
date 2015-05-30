@@ -28,7 +28,7 @@ public class BoardTest {
     public NormalChessMove chessMove;
     @Mock
     public Moves moves;
-    
+
     private Board board;
 
     @Before
@@ -62,6 +62,4 @@ public class BoardTest {
 
         assertNull(board.getPieceAt(square));
     }
-
-
 }

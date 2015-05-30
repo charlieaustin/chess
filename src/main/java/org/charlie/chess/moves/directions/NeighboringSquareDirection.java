@@ -1,7 +1,5 @@
 package org.charlie.chess.moves.directions;
 
-import com.sun.webkit.BackForwardList;
-
 import java.util.HashSet;
 import java.util.Set;
 

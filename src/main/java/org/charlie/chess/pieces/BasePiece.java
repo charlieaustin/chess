@@ -24,6 +24,10 @@ abstract class BasePiece implements Piece {
         return this.square;
     }
 
+    public void setSquare(Square newSquare) {
+        this.square = newSquare;
+    }
+
     public void move(Square dest, Board board) {
         final Piece piece = board.getPieceAt(square);
         if (piece == this) {
@@ -42,7 +46,7 @@ abstract class BasePiece implements Piece {
                     theKingIPutInCheck(opponentKingAt);
                 }
             }
-            
+
         }
     }
 
@@ -64,10 +68,6 @@ abstract class BasePiece implements Piece {
         return false;
     }
 
-    public void setSquare(Square newSquare) {
-        this.square = newSquare;
-    }
-
     public boolean isOwnedBy(Player owner) {
         return this.owner.isSame(owner);
     }
@@ -75,5 +75,5 @@ abstract class BasePiece implements Piece {
     public void theKingIPutInCheck(King king) {
         kingIPutInCheck = king;
     }
-    
+
 }
