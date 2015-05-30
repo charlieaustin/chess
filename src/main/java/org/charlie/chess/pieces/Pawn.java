@@ -3,10 +3,10 @@ package org.charlie.chess.pieces;
 import org.charlie.chess.Board;
 import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.Square;
-import org.charlie.chess.moves.NormalChessMove;
-import org.charlie.chess.moves.UpgradePawnMove;
 import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.directions.PawnDirection;
+import org.charlie.chess.moves.NormalChessMove;
+import org.charlie.chess.moves.UpgradePawnMove;
 import org.charlie.chess.players.Player;
 
 public class Pawn extends BasePiece {
