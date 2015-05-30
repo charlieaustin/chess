@@ -22,8 +22,8 @@ public class Pawn extends BasePiece {
     private Square twoInFront;
     private int numberOfMoves = 0;
 
-    public Pawn(Player owner, Board board, Square square, PawnDirection pawnDirection, King myKing, King yourKing) {
-        super(owner, board, square);
+    public Pawn(Player owner, Square square, PawnDirection pawnDirection, King myKing, King yourKing) {
+        super(owner, square);
         this.myKing = myKing;
         this.yourKing = yourKing;
 
@@ -36,7 +36,7 @@ public class Pawn extends BasePiece {
     }
 
     @Override
-    public PossibleMoves getPossibleMoves() {
+    public PossibleMoves getPossibleMoves(Board board) {
         PossibleMoves possibleMoves = new PossibleMoves();
 
         if (!board.isPieceAt(oneInFront)) {
@@ -47,11 +47,11 @@ public class Pawn extends BasePiece {
             possibleMoves.addMove(new NormalChessMove(square, twoInFront, this));
         }
 
-        if (isEnPassant(NeighboringSquareDirection.Right, right)) {
+        if (isEnPassant(NeighboringSquareDirection.Right, right, board)) {
             upgradeIfPossible(possibleMoves, rightDiagonalSquare);
         }
 
-        if (isEnPassant(NeighboringSquareDirection.Left, left)) {
+        if (isEnPassant(NeighboringSquareDirection.Left, left, board)) {
             upgradeIfPossible(possibleMoves, leftDiagonalSquare);
         }
 
@@ -76,21 +76,21 @@ public class Pawn extends BasePiece {
     }
 
     @Override
-    public void move(Square dest) {
+    public void move(Square dest, Board board) {
         takenFirstMove = true;
         if (square.locationsBetween(dest).size() == 1) {
             numberOfMoves += 2;
         }
         numberOfMoves += 1;
-        super.move(dest);
+        super.move(dest, board);
 
-        if (isEnPassant(NeighboringSquareDirection.Left, left)) {
+        if (isEnPassant(NeighboringSquareDirection.Left, left, board)) {
             Piece pieceAt = board.getPieceAt(left);
             pieceAt.isTaken();
             board.setNullAt(left);
         }
 
-        if (isEnPassant(NeighboringSquareDirection.Right, right)) {
+        if (isEnPassant(NeighboringSquareDirection.Right, right, board)) {
             Piece pieceAt = board.getPieceAt(right);
             pieceAt.isTaken();
             board.setNullAt(right);
@@ -98,7 +98,7 @@ public class Pawn extends BasePiece {
 
     }
 
-    private boolean isEnPassant(NeighboringSquareDirection neighboringSquareDirection, Square rightOrLeft) {
+    private boolean isEnPassant(NeighboringSquareDirection neighboringSquareDirection, Square rightOrLeft, Board board) {
         NormalChessMove lastMove = board.getLastMove();
         Piece piece = lastMove.getPiece();
         NeighboringSquareDirection neighborDirection = lastMove.isLeftOrRightOf(square);

@@ -1,5 +1,6 @@
 package org.charlie.chess.players;
 
+import org.charlie.chess.Board;
 import org.charlie.chess.PlayerPieces;
 import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.Square;
@@ -21,10 +22,10 @@ public class NormalPlayer implements Player {
     }
 
     @Override
-    public NormalChessMove selectMove() {
+    public NormalChessMove selectMove(Board board) {
         final Piece piece = myPieces.getPiece();
         final Square src = piece.getSquare();
-        final PossibleMoves possibleMoves = piece.getPossibleMoves();
+        final PossibleMoves possibleMoves = piece.getPossibleMoves(board);
         final Square dest = possibleMoves.getMove();
         return new NormalChessMove(src, dest, piece);
     }

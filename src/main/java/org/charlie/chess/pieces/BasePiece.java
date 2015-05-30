@@ -9,15 +9,13 @@ import org.charlie.chess.players.Player;
 abstract class BasePiece implements Piece {
 
     protected final Player owner;
-    protected final Board board;
     protected Square square;
 
     private boolean isTaken = false;
     private King kingIPutInCheck = null;
 
-    protected BasePiece(Player owner, Board board, Square square) {
+    protected BasePiece(Player owner, Square square) {
         this.owner = owner;
-        this.board = board;
         this.square = square;
     }
 
@@ -26,7 +24,7 @@ abstract class BasePiece implements Piece {
         return this.square;
     }
 
-    public void move(Square dest) {
+    public void move(Square dest, Board board) {
         final Piece piece = board.getPieceAt(square);
         if (piece == this) {
             board.setNullAt(square);
@@ -36,7 +34,7 @@ abstract class BasePiece implements Piece {
             }
             board.setPieceAt(dest, piece);
             setSquare(dest);
-            PossibleMoves possibleMoves = piece.getPossibleMoves();
+            PossibleMoves possibleMoves = piece.getPossibleMoves(board);
             for (NormalChessMove possibleMove : possibleMoves) {
                 King opponentKingAt = board.getOpponentKingAt(possibleMove.getDest(), owner);
                 if (opponentKingAt != null) {
@@ -48,7 +46,7 @@ abstract class BasePiece implements Piece {
         }
     }
 
-    abstract public PossibleMoves getPossibleMoves();
+    abstract public PossibleMoves getPossibleMoves(Board board);
 
     public void markAsTaken() {
         isTaken = true;

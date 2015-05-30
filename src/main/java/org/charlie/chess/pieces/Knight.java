@@ -31,17 +31,17 @@ public class Knight extends BasePiece {
     private final King myKing;
     private final King yourKing;
 
-    public Knight(Player owner, Board board, Square square, King myKing, King yourKing) {
-        super(owner, board, square);
+    public Knight(Player owner, Square square, King myKing, King yourKing) {
+        super(owner, square);
         this.myKing = myKing;
         this.yourKing = yourKing;
     }
 
     @Override
-    public PossibleMoves getPossibleMoves() {
+    public PossibleMoves getPossibleMoves(Board board) {
         PossibleMoves possibleMoves = new PossibleMoves();
         for (Square possibleDest : possibleDests) {
-            canMoveToSquare(possibleMoves, possibleDest);
+            canMoveToSquare(possibleMoves, possibleDest, board);
         }
 
         return possibleMoves;
@@ -53,7 +53,7 @@ public class Knight extends BasePiece {
         return false;
     }
 
-    private void canMoveToSquare(PossibleMoves possibleMoves, Square dest) {
+    private void canMoveToSquare(PossibleMoves possibleMoves, Square dest, Board board) {
         if (board.isOpponentsPieceAt(dest, owner) || !board.isPieceAt(dest)) {
             possibleMoves.addMove(new NormalChessMove(square, dest, this));
         }

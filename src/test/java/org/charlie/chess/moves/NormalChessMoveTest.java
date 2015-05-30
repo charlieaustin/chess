@@ -39,7 +39,7 @@ public class NormalChessMoveTest {
 
         sut.move(board);
 
-        Mockito.verify(myPiece).move(dest);
+        Mockito.verify(myPiece).move(dest, board);
     }
 
 }

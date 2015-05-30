@@ -34,7 +34,7 @@ public class NormalChessMove implements ChessMove {
 
     @Override
     public void move(Board board) {
-        piece.move(dest);
+        piece.move(dest, board);
     }
 
     @Override

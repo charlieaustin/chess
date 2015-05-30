@@ -15,17 +15,17 @@ public class Bishop extends BasePiece {
     private final King myKing;
     private final King yourKing;
 
-    public Bishop(Player owner, Board board, Square square, King myKing, King yourKing) {
-        super(owner, board, square);
+    public Bishop(Player owner, Square square, King myKing, King yourKing) {
+        super(owner, square);
         this.myKing = myKing;
         this.yourKing = yourKing;
     }
 
     @Override
-    public PossibleMoves getPossibleMoves() {
+    public PossibleMoves getPossibleMoves(Board board) {
         PossibleMoves possibleMoves = new PossibleMoves();
         for (NeighboringSquareDirection neighboringSquareDirection : NeighboringSquareDirection.getDiagonalDirection()) {
-            addPossibleMoveFor(possibleMoves, neighboringSquareDirection);
+            addPossibleMoveFor(possibleMoves, neighboringSquareDirection, board);
         }
         return possibleMoves;
     }
@@ -35,7 +35,7 @@ public class Bishop extends BasePiece {
         return false;
     }
 
-    private void addPossibleMoveFor(PossibleMoves possibleMoves, NeighboringSquareDirection direction) {
+    private void addPossibleMoveFor(PossibleMoves possibleMoves, NeighboringSquareDirection direction, Board board) {
         Square emptyOrEnemySquare = board.getEmptySquareOrEnemySquareOrOriginalSquare(square, direction, owner);
         Set<Square> squares = square.locationsBetween(emptyOrEnemySquare);
         for (Square possibleMove : squares) {

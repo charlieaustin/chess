@@ -26,6 +26,18 @@ public class Board {
         this.moves = moves;
     }
 
+    private Board copy() {
+        Piece[][] pieces = new Piece[board.length][];
+        for (int i = 0; i < board.length; i++) {
+            Piece[] aMatrix = board[i];
+            int aLength = aMatrix.length;
+            pieces[i] = new Piece[aLength];
+            System.arraycopy(aMatrix, 0, pieces[i], 0, aLength);
+        }
+
+        return new Board(pieces, moves.copy());
+    }
+
     public boolean hasNoWinner() {
         return !hasWinner;
     }
@@ -33,41 +45,41 @@ public class Board {
     public void setUpBoard(Player white, Player black) {
         assert (board.length == 8);
         assert (board[0].length == 8);
-        King whiteKing = new King(white, this, new Square(0, 4));
-        King blackKing = new King(black, this, new Square(7, 4));
-        
+        King whiteKing = new King(white, new Square(0, 4));
+        King blackKing = new King(black, new Square(7, 4));
+
         board[0][4] = whiteKing;
         board[7][4] = blackKing;
 
-        board[0][0] = new Rook(white, this, new Square(0, 0), whiteKing, blackKing);
-        board[0][1] = new Knight(white, this, new Square(0, 1), whiteKing, blackKing);
-        board[0][2] = new Bishop(white, this, new Square(0, 2), whiteKing, blackKing);
-        board[0][3] = new Queen(white, this, new Square(0, 3), whiteKing, blackKing);
-        board[0][5] = new Bishop(white, this, new Square(0, 5), whiteKing, blackKing);
-        board[0][6] = new Knight(white, this, new Square(0, 6), whiteKing, blackKing);
-        board[0][7] = new Rook(white, this, new Square(0, 7), whiteKing, blackKing);
+        board[0][0] = new Rook(white, new Square(0, 0), whiteKing, blackKing);
+        board[0][1] = new Knight(white, new Square(0, 1), whiteKing, blackKing);
+        board[0][2] = new Bishop(white, new Square(0, 2), whiteKing, blackKing);
+        board[0][3] = new Queen(white, new Square(0, 3), whiteKing, blackKing);
+        board[0][5] = new Bishop(white, new Square(0, 5), whiteKing, blackKing);
+        board[0][6] = new Knight(white, new Square(0, 6), whiteKing, blackKing);
+        board[0][7] = new Rook(white, new Square(0, 7), whiteKing, blackKing);
         Piece[] whitePanwRow = board[1];
         for (int i = 0; i < whitePanwRow.length; i++) {
-            whitePanwRow[i] = new Pawn(white, this, new Square(1, i), new White(), whiteKing, blackKing);
+            whitePanwRow[i] = new Pawn(white, new Square(1, i), new White(), whiteKing, blackKing);
         }
 
-        board[7][0] = new Rook(black, this, new Square(7, 0), blackKing, whiteKing);
-        board[7][1] = new Knight(black, this, new Square(7, 1), blackKing, whiteKing);
-        board[7][2] = new Bishop(black, this, new Square(7, 2), blackKing, whiteKing);
-        board[7][3] = new Queen(black, this, new Square(7, 3), blackKing, whiteKing);
-        board[7][5] = new Bishop(black, this, new Square(7, 5), blackKing, whiteKing);
-        board[7][6] = new Knight(black, this, new Square(7, 6), blackKing, whiteKing);
-        board[7][7] = new Rook(black, this, new Square(7, 7), blackKing, whiteKing);
+        board[7][0] = new Rook(black, new Square(7, 0), blackKing, whiteKing);
+        board[7][1] = new Knight(black, new Square(7, 1), blackKing, whiteKing);
+        board[7][2] = new Bishop(black, new Square(7, 2), blackKing, whiteKing);
+        board[7][3] = new Queen(black, new Square(7, 3), blackKing, whiteKing);
+        board[7][5] = new Bishop(black, new Square(7, 5), blackKing, whiteKing);
+        board[7][6] = new Knight(black, new Square(7, 6), blackKing, whiteKing);
+        board[7][7] = new Rook(black, new Square(7, 7), blackKing, whiteKing);
 
         Piece[] blackPawnRow = board[1];
         for (int i = 0; i < blackPawnRow.length; i++) {
-            blackPawnRow[i] = new Pawn(black, this, new Square(1, i), new Black(), blackKing, whiteKing);
+            blackPawnRow[i] = new Pawn(black, new Square(1, i), new Black(), blackKing, whiteKing);
         }
     }
 
     public void move(Player movingPlayer) {
         final NormalChessMove chessMove =
-                movingPlayer.selectMove();
+                movingPlayer.selectMove(copy());
         chessMove.move(this);
         moves.addLastMove(chessMove);
     }

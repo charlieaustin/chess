@@ -13,9 +13,9 @@ public class King extends BasePiece {
     private final Set<Square> adjacentSquares = new HashSet<>();
     private Collection<Piece> putInCheckBy = new LinkedList<>();
 
-    public King(Player owner, Board board, Square square) {
-        super(owner, board, square);
-        Square forwad = new Square(square.getX() - 1, square.getY());
+    public King(Player owner, Square square) {
+        super(owner, square);
+        Square forward = new Square(square.getX() - 1, square.getY());
         Square forwardRight = new Square(square.getX() - 1, square.getY() + 1);
         Square right = new Square(square.getX(), square.getY() + 1);
         Square backwardRight = new Square(square.getX() + 1, square.getY() + 1);
@@ -23,7 +23,7 @@ public class King extends BasePiece {
         Square backwardLeft = new Square(square.getX() + 1, square.getY() - 1);
         Square left = new Square(square.getX(), square.getY() - 1);
         Square forwardLeft = new Square(square.getX() - 1, square.getY() - 1);
-        adjacentSquares.add(forwad);
+        adjacentSquares.add(forward);
         adjacentSquares.add(forwardRight);
         adjacentSquares.add(right);
         adjacentSquares.add(backwardRight);
@@ -34,7 +34,7 @@ public class King extends BasePiece {
     }
 
     @Override
-    public PossibleMoves getPossibleMoves() {
+    public PossibleMoves getPossibleMoves(Board board) {
         PossibleMoves possibleMoves = new PossibleMoves();
         for (Square adjacentSquare : adjacentSquares) {
 

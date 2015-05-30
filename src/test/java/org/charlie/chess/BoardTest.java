@@ -28,11 +28,12 @@ public class BoardTest {
     public NormalChessMove chessMove;
     @Mock
     public Moves moves;
+    
     private Board board;
 
     @Before
     public void setUp() {
-        Mockito.when(movingPlayer.selectMove()).thenReturn(chessMove);
+        Mockito.when(movingPlayer.selectMove(Mockito.any(Board.class))).thenReturn(chessMove);
         board = new Board(internalBoard, moves);
     }
 
@@ -40,7 +41,7 @@ public class BoardTest {
     public void testMovingPlayerSelectsAMove() throws Exception {
         board.move(movingPlayer);
 
-        Mockito.verify(movingPlayer).selectMove();
+        Mockito.verify(movingPlayer).selectMove(Mockito.any(Board.class));
     }
 
     @Test

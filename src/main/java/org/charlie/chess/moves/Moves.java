@@ -9,4 +9,8 @@ public class Moves {
     public ChessMove getLastMove() {
         return null;
     }
+    
+    public Moves copy() {
+        return null;
+    }
 }
