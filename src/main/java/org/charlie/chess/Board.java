@@ -5,10 +5,10 @@ import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.directions.White;
 import org.charlie.chess.moves.ChessMove;
 import org.charlie.chess.moves.Moves;
-import org.charlie.chess.moves.NormalChessMove;
 import org.charlie.chess.pieces.*;
 import org.charlie.chess.players.Player;
 
+import java.util.Map;
 import java.util.Set;
 
 public class Board {
@@ -17,8 +17,7 @@ public class Board {
     private Piece[][] board;
     private boolean hasWinner;
     private GameResult gameResult;
-    private Set<Piece> black;
-    private Set<Piece> white;
+    private Map<Player, Set<Piece>> pieces;
 
 
     public Board(Piece[][] board, Moves moves) {
@@ -26,7 +25,7 @@ public class Board {
         this.moves = moves;
     }
 
-    private Board copy() {
+    public Board copy() {
         Piece[][] pieces = new Piece[board.length][];
         for (int i = 0; i < board.length; i++) {
             Piece[] aMatrix = board[i];
@@ -45,8 +44,8 @@ public class Board {
     public void setUpBoard(Player white, Player black) {
         assert (board.length == 8);
         assert (board[0].length == 8);
-        King whiteKing = new King(white, new Square(0, 4));
-        King blackKing = new King(black, new Square(7, 4));
+        King whiteKing = new King(white, black, new Square(0, 4));
+        King blackKing = new King(black, white, new Square(7, 4));
 
         board[0][4] = whiteKing;
         board[7][4] = blackKing;
@@ -78,17 +77,13 @@ public class Board {
     }
 
     public void move(Player movingPlayer) {
-        final NormalChessMove chessMove = movingPlayer.selectMove(copy());
+        final ChessMove chessMove = movingPlayer.selectMove(copy());
         chessMove.move(this);
         moves.addLastMove(chessMove);
     }
 
-    public NormalChessMove getLastMove() {
-        ChessMove lastMove = moves.getLastMove();
-        if (lastMove instanceof NormalChessMove) {
-            return (NormalChessMove) lastMove;
-        }
-        throw new RuntimeException("Should not be called if game is over.");
+    public ChessMove getLastMove() {
+        return moves.getLastMove();
     }
 
     public Piece getPieceAt(Square square) {
@@ -128,7 +123,6 @@ public class Board {
     }
 
     private boolean isLocationOnBoard(Square square) {
-
         return square.getY() >= 0 && square.getY() <= 7 && square.getX() >= 0 && square.getX() <= 7;
     }
 
@@ -273,6 +267,15 @@ public class Board {
         return isOpponentsPieceAt(location, owner) && getPieceAt(location).isKing();
     }
 
+    public PossibleMoves getPossibleMovesFor(Player owner) {
+        Set<Piece> ownerPieces = pieces.get(owner);
+        PossibleMoves normalChessMoves = new PossibleMoves();
+        for (Piece piece : ownerPieces) {
+            normalChessMoves.addMoves(piece.getPossibleMoves(copy()));
+        }
+        return normalChessMoves;
+    }
+
     public boolean isPieceBetween(Square src, Square dest) {
         Set<Square> squares = src.locationsBetween(dest);
         boolean isBetween = false;
@@ -284,5 +287,10 @@ public class Board {
         }
 
         return isLocationOnBoard(src) && isLocationOnBoard(dest) && isBetween;
+    }
+
+    public void markAsTaken(Piece piece, Player owner) {
+        Set<Piece> pieceSet = pieces.get(owner);
+        pieceSet.remove(piece);
     }
 }

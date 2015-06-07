@@ -3,61 +3,33 @@ package org.charlie.chess.pieces;
 import org.charlie.chess.Board;
 import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.Square;
-import org.charlie.chess.moves.NormalChessMove;
 import org.charlie.chess.players.Player;
 
 abstract class BasePiece implements Piece {
 
     protected final Player owner;
-    protected Square square;
+    protected Square currentLocation;
 
-    private boolean isTaken = false;
     private King kingIPutInCheck = null;
 
-    protected BasePiece(Player owner, Square square) {
+    protected BasePiece(Player owner, Square currentLocation, King myKing, King yourKing) {
         this.owner = owner;
-        this.square = square;
+        this.currentLocation = currentLocation;
     }
 
     @Override
-    public Square getSquare() {
-        return this.square;
+    public Square getCurrentLocation() {
+        return this.currentLocation;
     }
 
-    public void setSquare(Square newSquare) {
-        this.square = newSquare;
-    }
-
-    public void move(Square dest, Board board) {
-        final Piece piece = board.getPieceAt(square);
-        if (piece == this) {
-            board.setNullAt(square);
-            Piece possiblePiece = board.getPieceAt(dest);
-            if (possiblePiece != null) {
-                possiblePiece.markAsTaken();
-            }
-            board.setPieceAt(dest, piece);
-            setSquare(dest);
-            PossibleMoves possibleMoves = piece.getPossibleMoves(board);
-            for (NormalChessMove possibleMove : possibleMoves) {
-                King opponentKingAt = board.getOpponentKingAt(possibleMove.getDest(), owner);
-                if (opponentKingAt != null) {
-                    opponentKingAt.putInCheck(piece);
-                    theKingIPutInCheck(opponentKingAt);
-                }
-            }
-
-        }
+    public void setCurrentLocation(Square currentLocation) {
+        this.currentLocation = currentLocation;
     }
 
     abstract public PossibleMoves getPossibleMoves(Board board);
 
-    public void markAsTaken() {
-        isTaken = true;
-    }
-
-    public boolean isTaken() {
-        return isTaken;
+    public void markAsTaken(Board board) {
+        board.markAsTaken(this, owner);
     }
 
     public boolean isPawn() {
@@ -76,4 +48,12 @@ abstract class BasePiece implements Piece {
         kingIPutInCheck = king;
     }
 
+    public boolean isOpponentInCheck() {
+        return kingIPutInCheck != null;
+    }
+
+    @Override
+    public void move(Square dest) {
+        currentLocation = dest;
+    }
 }

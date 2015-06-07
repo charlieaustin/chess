@@ -10,30 +10,19 @@ import org.charlie.chess.players.Player;
 public class Bishop extends BasePiece {
 
 
-    private final King myKing;
-    private final King yourKing;
     // TODO: Put this into the constructor to make this class testable
     private final StraightLineMove straightLineMove = new StraightLineMove();
 
     public Bishop(Player owner, Square square, King myKing, King yourKing) {
-        super(owner, square);
-        this.myKing = myKing;
-        this.yourKing = yourKing;
+        super(owner, square, myKing, yourKing);
     }
 
     @Override
     public PossibleMoves getPossibleMoves(Board board) {
         PossibleMoves possibleMoves = new PossibleMoves();
         for (NeighboringSquareDirection neighboringSquareDirection : NeighboringSquareDirection.getDiagonalDirection()) {
-            straightLineMove.addPossibleMovesFor(possibleMoves, neighboringSquareDirection, board, square, owner, this);
+            straightLineMove.addPossibleMovesFor(possibleMoves, neighboringSquareDirection, board, currentLocation, owner, this);
         }
         return possibleMoves;
     }
-
-    @Override
-    public boolean canIKillYou(Square yourLocation) {
-        return false;
-    }
-
-
 }

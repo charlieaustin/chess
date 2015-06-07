@@ -20,10 +20,10 @@ public class StraightLineMove {
         Square emptyOrEnemySquare = board.getEmptySquareOrEnemySquareOrOriginalSquare(square, direction, owner);
         Set<Square> squares = square.locationsBetween(emptyOrEnemySquare);
         for (Square possibleMove : squares) {
-            possibleMoves.addMove(new NormalChessMove(square, possibleMove, piece));
+            possibleMoves.addMove(new SimpleMove(square, possibleMove, piece));
         }
         if (board.isOpponentsPieceAt(emptyOrEnemySquare, owner)) {
-            possibleMoves.addMove(new NormalChessMove(square, emptyOrEnemySquare, piece));
+            possibleMoves.addMove(new SimpleMove(square, emptyOrEnemySquare, piece));
         }
 
     }

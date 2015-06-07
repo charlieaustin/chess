@@ -11,7 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class NormalChessMoveTest {
+public class SimpleMoveTest {
 
     private final Square src = new Square(0, 0);
     private final Square dest = new Square(0, 1);
@@ -24,13 +24,13 @@ public class NormalChessMoveTest {
     @Mock
     public Board board;
 
-    private NormalChessMove sut;
+    private SimpleMove sut;
 
     @Before
     public void setUp() {
         Mockito.when(board.getPieceAt(dest)).thenReturn(theirPiece);
         Mockito.when(board.getPieceAt(src)).thenReturn(myPiece);
-        sut = new NormalChessMove(src, dest, myPiece);
+        sut = new SimpleMove(src, dest, myPiece);
     }
 
     @Test
@@ -39,7 +39,7 @@ public class NormalChessMoveTest {
 
         sut.move(board);
 
-        Mockito.verify(myPiece).move(dest, board);
+        Mockito.verify(myPiece).move(dest);
     }
 
 }

@@ -7,15 +7,13 @@ import org.charlie.chess.players.Player;
 
 public interface Piece {
 
-    public Square getSquare();
+    public Square getCurrentLocation();
+
+    public void setCurrentLocation(Square currentLocation);
 
     public PossibleMoves getPossibleMoves(Board board);
 
-    public void markAsTaken();
-
-    public boolean isTaken();
-
-    public void move(Square dest, Board board);
+    public void markAsTaken(Board board);
 
     public boolean isPawn();
 
@@ -23,7 +21,7 @@ public interface Piece {
 
     public boolean isKing();
 
-    public void theKingIPutInCheck(King me);
+    public void move(Square dest);
 
-    public boolean canIKillYou(Square yourLocation);
+    public void theKingIPutInCheck(King me);
 }

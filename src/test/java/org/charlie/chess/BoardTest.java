@@ -1,7 +1,7 @@
 package org.charlie.chess;
 
 import org.charlie.chess.moves.Moves;
-import org.charlie.chess.moves.NormalChessMove;
+import org.charlie.chess.moves.SimpleMove;
 import org.charlie.chess.pieces.Piece;
 import org.charlie.chess.players.Player;
 import org.junit.Before;
@@ -25,7 +25,7 @@ public class BoardTest {
     @Mock
     public Piece piece;
     @Mock
-    public NormalChessMove chessMove;
+    public SimpleMove chessMove;
     @Mock
     public Moves moves;
 

@@ -4,15 +4,16 @@ import org.charlie.chess.Board;
 import org.charlie.chess.Square;
 import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.pieces.Piece;
+import org.charlie.chess.players.Player;
 
-public class NormalChessMove implements ChessMove {
+public class SimpleMove implements ChessMove {
     private final Square src;
     private final Square dest;
 
     private final Piece piece;
 
 
-    public NormalChessMove(Square src, Square dest, Piece piece) {
+    public SimpleMove(Square src, Square dest, Piece piece) {
         assert (src != null);
         assert (dest != null);
         assert (piece != null);
@@ -23,18 +24,26 @@ public class NormalChessMove implements ChessMove {
         this.piece = piece;
     }
 
-    public Piece getPiece() {
-        return piece;
-
-    }
-
     public Square getDest() {
         return dest;
     }
 
     @Override
     public void move(Board board) {
-        piece.move(dest, board);
+        Piece pieceAt = board.getPieceAt(dest);
+        if (pieceAt != null) {
+            pieceAt.markAsTaken(board);
+        }
+        board.setNullAt(src);
+        board.setPieceAt(dest, piece);
+        piece.move(dest);
+    }
+
+    @Override
+    public boolean isEnPassantPossible(Player owner,
+                                       NeighboringSquareDirection neighboringSquareDirection, Square rightOrLeft) {
+
+        return piece.isPawn() && !piece.isOwnedBy(owner) && isLeftOrRightOf(rightOrLeft) == neighboringSquareDirection;
     }
 
     @Override
@@ -42,7 +51,7 @@ public class NormalChessMove implements ChessMove {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        NormalChessMove that = (NormalChessMove) o;
+        SimpleMove that = (SimpleMove) o;
 
         if (!dest.equals(that.dest)) return false;
         if (!piece.equals(that.piece)) return false;
@@ -59,9 +68,6 @@ public class NormalChessMove implements ChessMove {
         return result;
     }
 
-    public boolean isUpgradeMove() {
-        return false;
-    }
 
     public NeighboringSquareDirection isLeftOrRightOf(Square square) {
         if (dest.getY() == square.getY()) {

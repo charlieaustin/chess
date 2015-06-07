@@ -5,14 +5,14 @@ import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.Square;
 import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.directions.PawnDirection;
-import org.charlie.chess.moves.NormalChessMove;
+import org.charlie.chess.moves.EnPassantMove;
+import org.charlie.chess.moves.SimpleMove;
 import org.charlie.chess.moves.UpgradePawnMove;
 import org.charlie.chess.players.Player;
 
 public class Pawn extends BasePiece {
 
-    private final King myKing;
-    private final King yourKing;
+    private final PawnDirection pawnDirection;
     private boolean takenFirstMove = false;
     private Square leftDiagonalSquare;
     private Square left;
@@ -22,17 +22,11 @@ public class Pawn extends BasePiece {
     private Square twoInFront;
     private int numberOfMoves = 0;
 
-    public Pawn(Player owner, Square square, PawnDirection pawnDirection, King myKing, King yourKing) {
-        super(owner, square);
-        this.myKing = myKing;
-        this.yourKing = yourKing;
+    public Pawn(Player owner, Square currentLocation, PawnDirection pawnDirection, King myKing, King yourKing) {
+        super(owner, currentLocation, myKing, yourKing);
+        this.pawnDirection = pawnDirection;
 
-        leftDiagonalSquare = new Square(square.getX() + pawnDirection.forward(), square.getY() - 1);
-        left = new Square(square.getX(), square.getY() - 1);
-        rightDiagonalSquare = new Square(square.getX() + pawnDirection.forward(), square.getY() + 1);
-        right = new Square(square.getX(), square.getY() + 1);
-        oneInFront = new Square(square.getX() + pawnDirection.forward(), square.getY());
-        twoInFront = new Square(square.getX() + (2 * pawnDirection.forward()), square.getY());
+        updateLocation(currentLocation);
     }
 
     @Override
@@ -43,16 +37,16 @@ public class Pawn extends BasePiece {
             upgradeIfPossible(possibleMoves, oneInFront);
         }
 
-        if (!takenFirstMove && !board.isPieceBetween(square, twoInFront) && !board.isPieceAt(twoInFront)) {
-            possibleMoves.addMove(new NormalChessMove(square, twoInFront, this));
+        if (!takenFirstMove && !board.isPieceBetween(currentLocation, twoInFront) && !board.isPieceAt(twoInFront)) {
+            possibleMoves.addMove(new SimpleMove(currentLocation, twoInFront, this));
         }
 
-        if (isEnPassant(NeighboringSquareDirection.Right, right, board)) {
-            upgradeIfPossible(possibleMoves, rightDiagonalSquare);
+        if (isEnPassantPossible(NeighboringSquareDirection.Right, right, board)) {
+            possibleMoves.addMove(new EnPassantMove(right, rightDiagonalSquare, currentLocation, this));
         }
 
-        if (isEnPassant(NeighboringSquareDirection.Left, left, board)) {
-            upgradeIfPossible(possibleMoves, leftDiagonalSquare);
+        if (isEnPassantPossible(NeighboringSquareDirection.Left, left, board)) {
+            possibleMoves.addMove(new EnPassantMove(left, leftDiagonalSquare, currentLocation, this));
         }
 
         if (board.isOpponentsPieceAt(leftDiagonalSquare, owner)) {
@@ -64,45 +58,7 @@ public class Pawn extends BasePiece {
             upgradeIfPossible(possibleMoves, rightDiagonalSquare);
         }
 
-        return null;
-    }
-
-    private void upgradeIfPossible(PossibleMoves possibleMoves, Square dest) {
-        if (numberOfMoves == 6) {
-            possibleMoves.addMove(new UpgradePawnMove(square, dest, this));
-        } else {
-            possibleMoves.addMove(new NormalChessMove(square, dest, this));
-        }
-    }
-
-    @Override
-    public void move(Square dest, Board board) {
-        takenFirstMove = true;
-        if (square.locationsBetween(dest).size() == 1) {
-            numberOfMoves += 2;
-        }
-        numberOfMoves += 1;
-        super.move(dest, board);
-
-        if (isEnPassant(NeighboringSquareDirection.Left, left, board)) {
-            Piece pieceAt = board.getPieceAt(left);
-            pieceAt.isTaken();
-            board.setNullAt(left);
-        }
-
-        if (isEnPassant(NeighboringSquareDirection.Right, right, board)) {
-            Piece pieceAt = board.getPieceAt(right);
-            pieceAt.isTaken();
-            board.setNullAt(right);
-        }
-
-    }
-
-    private boolean isEnPassant(NeighboringSquareDirection neighboringSquareDirection, Square rightOrLeft, Board board) {
-        NormalChessMove lastMove = board.getLastMove();
-        Piece piece = lastMove.getPiece();
-        NeighboringSquareDirection neighborDirection = lastMove.isLeftOrRightOf(square);
-        return piece.isPawn() && neighborDirection == neighboringSquareDirection && board.isOpponentsPieceAt(rightOrLeft, owner);
+        return possibleMoves;
     }
 
     @Override
@@ -110,9 +66,37 @@ public class Pawn extends BasePiece {
         return true;
     }
 
-    @Override
-    public boolean canIKillYou(Square yourLocation) {
-        return false;
+    public void move(Square dest) {
+        takenFirstMove = true;
+        if (currentLocation.locationsBetween(dest).size() == 1) {
+            numberOfMoves += 2;
+        }
+
+        numberOfMoves += 1;
+        updateLocation(dest);
     }
 
+    private void upgradeIfPossible(PossibleMoves possibleMoves, Square dest) {
+        if (numberOfMoves == 5) {
+            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Bishop(owner, dest, null, null)));
+            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Knight(owner, dest, null, null)));
+            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Queen(owner, dest, null, null)));
+            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Rook(owner, dest, null, null)));
+        } else {
+            possibleMoves.addMove(new SimpleMove(currentLocation, dest, this));
+        }
+    }
+
+    private boolean isEnPassantPossible(NeighboringSquareDirection neighboringSquareDirection, Square rightOrLeft, Board board) {
+        return board.getLastMove().isEnPassantPossible(owner, neighboringSquareDirection, rightOrLeft);
+    }
+
+    private void updateLocation(Square currentLocation) {
+        leftDiagonalSquare = new Square(currentLocation.getX() + pawnDirection.forward(), currentLocation.getY() - 1);
+        left = new Square(currentLocation.getX(), currentLocation.getY() - 1);
+        rightDiagonalSquare = new Square(currentLocation.getX() + pawnDirection.forward(), currentLocation.getY() + 1);
+        right = new Square(currentLocation.getX(), currentLocation.getY() + 1);
+        oneInFront = new Square(currentLocation.getX() + pawnDirection.forward(), currentLocation.getY());
+        twoInFront = new Square(currentLocation.getX() + (2 * pawnDirection.forward()), currentLocation.getY());
+    }
 }
