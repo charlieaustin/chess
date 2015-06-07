@@ -29,10 +29,6 @@ public class PossibleMoves implements Iterable<ChessMove> {
         return null;
     }
 
-    public void removeMove(ChessMove move) {
-        this.possibleMoves.remove(move);
-    }
-
     @Override
     public Iterator<ChessMove> iterator() {
         return possibleMoves.iterator();
@@ -48,7 +44,4 @@ public class PossibleMoves implements Iterable<ChessMove> {
         return possibleMoves.spliterator();
     }
 
-    public boolean isNotEmpty() {
-        return !possibleMoves.isEmpty();
-    }
 }

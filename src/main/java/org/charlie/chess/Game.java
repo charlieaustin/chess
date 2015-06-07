@@ -2,7 +2,7 @@ package org.charlie.chess;
 
 import org.charlie.chess.players.Player;
 
-public class Game {
+class Game {
 
     private final Board board;
     private final Player white;

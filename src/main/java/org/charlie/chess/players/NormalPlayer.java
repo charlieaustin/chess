@@ -29,7 +29,7 @@ public class NormalPlayer implements Player {
         return new ForfeitGameMove(opponent, this);
     }
 
-    protected ChessMove lookForCheck(Board board, PossibleMoves possibleMoves) {
+    ChessMove lookForCheck(Board board, PossibleMoves possibleMoves) {
         if (opponent == null) {
             throw new RuntimeException("Opponent should not be null");
         }

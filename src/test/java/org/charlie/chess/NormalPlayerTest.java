@@ -9,9 +9,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class NormalPlayerTest {
 
     @Mock
-    PlayerPieces playerPieces;
-
-    @Mock
     Board board;
 
     @Test

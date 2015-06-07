@@ -14,7 +14,7 @@ public class Square {
     }
 
     public Set<Square> locationsBetween(Square dest) {
-        HashSet<Square> squares = new HashSet<Square>();
+        HashSet<Square> squares = new HashSet<>();
         if (dest.x == this.x && dest.y != this.y) {
             int distance = Math.abs(dest.y - this.y);
             int least = Math.min(dest.y, this.y);

@@ -60,10 +60,10 @@ public class King extends BasePiece {
             possibleMoves.addMove(new SimpleMove(currentLocation, adjacentSquare, this));
         }
 
-        if (!hasMoved && !leftRook.getHasMoved()) {
+        if (getHasNotMoved() && leftRook.getHasNotMoved()) {
             addCastleMove(board, possibleMoves, left, leftRook, left, twoLeft);
         }
-        if (!hasMoved && !rightRook.getHasMoved()) {
+        if (getHasNotMoved() && rightRook.getHasNotMoved()) {
             addCastleMove(board, possibleMoves, right, rightRook, right, twoRight);
         }
         return possibleMoves;
@@ -103,8 +103,8 @@ public class King extends BasePiece {
         return true;
     }
 
-    public boolean getHasMoved() {
-        return hasMoved;
+    boolean getHasNotMoved() {
+        return !hasMoved;
     }
 
     public void setRightRook(Rook right) {

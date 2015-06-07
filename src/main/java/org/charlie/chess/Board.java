@@ -17,10 +17,10 @@ import java.util.Set;
 public class Board {
 
     private final Moves moves;
-    private Piece[][] board;
+    private final Piece[][] board;
     private boolean hasWinner;
     private GameResult gameResult;
-    private Map<Player, Set<Piece>> pieces = new HashMap<>();
+    private final Map<Player, Set<Piece>> pieces = new HashMap<>();
     private int fiftyMoveRule = 0;
 
 
@@ -58,16 +58,20 @@ public class Board {
         board[0][4] = whiteKing;
         board[7][4] = blackKing;
 
-        board[0][0] = new Rook(white, new Square(0, 0), new StraightLineMove());
+        Rook leftWhiteRook = new Rook(white, new Square(0, 0), new StraightLineMove());
+        board[0][0] = leftWhiteRook;
+        whiteKing.setLeftLeft(leftWhiteRook);
         board[0][1] = new Knight(white, new Square(0, 1));
         board[0][2] = new Bishop(white, new Square(0, 2), new StraightLineMove());
         board[0][3] = new Queen(white, new Square(0, 3), new StraightLineMove());
         board[0][5] = new Bishop(white, new Square(0, 5), new StraightLineMove());
         board[0][6] = new Knight(white, new Square(0, 6));
-        board[0][7] = new Rook(white, new Square(0, 7), new StraightLineMove());
-        Piece[] whitePanwRow = board[1];
-        for (int i = 0; i < whitePanwRow.length; i++) {
-            whitePanwRow[i] = new Pawn(white, new Square(1, i), new White());
+        Rook rightWhiteRook = new Rook(white, new Square(0, 7), new StraightLineMove());
+        board[0][7] = rightWhiteRook;
+        whiteKing.setRightRook(rightWhiteRook);
+        Piece[] whitePawnRow = board[1];
+        for (int i = 0; i < whitePawnRow.length; i++) {
+            whitePawnRow[i] = new Pawn(white, new Square(1, i), new White());
         }
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 8; j++) {
@@ -75,13 +79,17 @@ public class Board {
             }
         }
 
-        board[7][0] = new Rook(black, new Square(7, 0), new StraightLineMove());
+        Rook leftBlackRook = new Rook(black, new Square(7, 0), new StraightLineMove());
+        board[7][0] = leftBlackRook;
+        blackKing.setLeftLeft(leftBlackRook);
         board[7][1] = new Knight(black, new Square(7, 1));
         board[7][2] = new Bishop(black, new Square(7, 2), new StraightLineMove());
         board[7][3] = new Queen(black, new Square(7, 3), new StraightLineMove());
         board[7][5] = new Bishop(black, new Square(7, 5), new StraightLineMove());
         board[7][6] = new Knight(black, new Square(7, 6));
-        board[7][7] = new Rook(black, new Square(7, 7), new StraightLineMove());
+        Rook rightBlackRook = new Rook(black, new Square(7, 7), new StraightLineMove());
+        board[7][7] = rightBlackRook;
+        blackKing.setRightRook(rightBlackRook);
 
         Piece[] blackPawnRow = board[6];
         for (int i = 0; i < blackPawnRow.length; i++) {
@@ -89,7 +97,7 @@ public class Board {
         }
         for (int i = 6; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                whitePieces.add(board[i][j]);
+                blackPieces.add(board[i][j]);
             }
         }
 
@@ -126,10 +134,6 @@ public class Board {
         board[square.getX()][square.getY()] = piece;
     }
 
-    public GameResult getResults() {
-        return gameResult;
-    }
-
     public void setHasWinner(Player winner, Player loser) {
         this.gameResult = new GameResult(winner, loser, moves, winner == null && loser == null);
         this.hasWinner = true;
@@ -143,7 +147,7 @@ public class Board {
         return isPieceAt(square) && !getPieceAt(square).isOwnedBy(owner);
     }
 
-    public boolean myPieceIsAt(Square square, Player owner) {
+    boolean myPieceIsAt(Square square, Player owner) {
         return isPieceAt(square) && getPieceAt(square).isOwnedBy(owner);
     }
 
@@ -276,7 +280,7 @@ public class Board {
                 return furthest;
             }
             case NotNeighbor: {
-                throw new UnsupportedOperationException("Do not call this method withn NotNeighbor");
+                throw new UnsupportedOperationException("Do not call this method with NotNeighbor");
             }
         }
         throw new UnsupportedOperationException("Should not get here");
@@ -289,7 +293,7 @@ public class Board {
         return null;
     }
 
-    public boolean isOpponentKingAt(Square location, Player owner) {
+    boolean isOpponentKingAt(Square location, Player owner) {
         return isOpponentsPieceAt(location, owner) && getPieceAt(location).isKing();
     }
 

@@ -31,7 +31,7 @@ public class Rook extends BasePiece {
         hasMoved = true;
     }
 
-    public boolean getHasMoved() {
-        return hasMoved;
+    public boolean getHasNotMoved() {
+        return !hasMoved;
     }
 }

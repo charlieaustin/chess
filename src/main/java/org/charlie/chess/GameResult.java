@@ -3,7 +3,7 @@ package org.charlie.chess;
 import org.charlie.chess.moves.Moves;
 import org.charlie.chess.players.Player;
 
-public class GameResult {
+class GameResult {
     private final Player winner;
     private final Player loser;
     private final Moves moves;

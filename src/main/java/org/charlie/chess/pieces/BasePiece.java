@@ -7,12 +7,12 @@ import org.charlie.chess.players.Player;
 
 abstract class BasePiece implements Piece {
 
-    protected final Player owner;
-    protected Square currentLocation;
+    final Player owner;
+    Square currentLocation;
 
     private King kingIPutInCheck = null;
 
-    protected BasePiece(Player owner, Square currentLocation) {
+    BasePiece(Player owner, Square currentLocation) {
         this.owner = owner;
         this.currentLocation = currentLocation;
     }

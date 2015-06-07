@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Knight extends BasePiece {
-    private final List<Square> possibleDests = new LinkedList<>();
+    private final List<Square> possibleDestinations = new LinkedList<>();
     private Square upLeft;
     private Square upRight;
     private Square rightUp;
@@ -29,7 +29,7 @@ public class Knight extends BasePiece {
     public PossibleMoves getPossibleMoves(Board board) {
         PossibleMoves possibleMoves = new PossibleMoves();
 
-        for (Square possibleDest : possibleDests) {
+        for (Square possibleDest : possibleDestinations) {
             canMoveToSquare(possibleMoves, possibleDest, board);
         }
 
@@ -46,15 +46,15 @@ public class Knight extends BasePiece {
         downRight = new Square(currentLocation.getX() + 3, currentLocation.getY() + 1);
         leftUp = new Square(currentLocation.getX() - 1, currentLocation.getY() - 3);
         leftDown = new Square(currentLocation.getX() + 1, currentLocation.getY() - 3);
-        possibleDests.clear();
-        possibleDests.add(upLeft);
-        possibleDests.add(upRight);
-        possibleDests.add(rightUp);
-        possibleDests.add(rightDown);
-        possibleDests.add(downLeft);
-        possibleDests.add(downRight);
-        possibleDests.add(leftUp);
-        possibleDests.add(leftDown);
+        possibleDestinations.clear();
+        possibleDestinations.add(upLeft);
+        possibleDestinations.add(upRight);
+        possibleDestinations.add(rightUp);
+        possibleDestinations.add(rightDown);
+        possibleDestinations.add(downLeft);
+        possibleDestinations.add(downRight);
+        possibleDestinations.add(leftUp);
+        possibleDestinations.add(leftDown);
 
     }
 
