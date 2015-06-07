@@ -46,6 +46,8 @@ public class Board {
     }
 
     public void setUpBoard(Player white, Player black) {
+        white.setOpponent(black);
+        black.setOpponent(white);
         pieces.clear();
         Set<Piece> whitePieces = new HashSet<>();
         Set<Piece> blackPieces = new HashSet<>();
@@ -106,7 +108,7 @@ public class Board {
     }
 
     public void move(Player movingPlayer) {
-        final ChessMove chessMove = movingPlayer.selectMove(copy());
+        final ChessMove chessMove = movingPlayer.selectMove(this);
         chessMove.move(this);
         moves.addLastMove(chessMove);
         fiftyMoveRule += 1;

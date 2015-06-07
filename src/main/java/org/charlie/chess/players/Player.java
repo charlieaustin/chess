@@ -10,4 +10,6 @@ public interface Player {
     public boolean isSame(Player player);
 
     public PlayerStats getStats();
+
+    public void setOpponent(Player opponent);
 }
