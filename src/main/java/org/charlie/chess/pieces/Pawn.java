@@ -81,7 +81,7 @@ public class Pawn extends BasePiece {
             possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Bishop(owner, dest, null, null)));
             possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Knight(owner, dest, null, null)));
             possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Queen(owner, dest, null, null)));
-            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Rook(owner, dest, null, null)));
+            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Rook(owner, dest, null, null, straightLineMove)));
         } else {
             possibleMoves.addMove(new SimpleMove(currentLocation, dest, this));
         }

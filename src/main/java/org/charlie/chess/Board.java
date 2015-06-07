@@ -5,6 +5,7 @@ import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.directions.White;
 import org.charlie.chess.moves.ChessMove;
 import org.charlie.chess.moves.Moves;
+import org.charlie.chess.moves.StraightLineMove;
 import org.charlie.chess.pieces.*;
 import org.charlie.chess.players.Player;
 
@@ -56,13 +57,13 @@ public class Board {
         board[0][4] = whiteKing;
         board[7][4] = blackKing;
 
-        board[0][0] = new Rook(white, new Square(0, 0), whiteKing, blackKing);
+        board[0][0] = new Rook(white, new Square(0, 0), whiteKing, blackKing, new StraightLineMove());
         board[0][1] = new Knight(white, new Square(0, 1), whiteKing, blackKing);
-        board[0][2] = new Bishop(white, new Square(0, 2), whiteKing, blackKing);
-        board[0][3] = new Queen(white, new Square(0, 3), whiteKing, blackKing);
-        board[0][5] = new Bishop(white, new Square(0, 5), whiteKing, blackKing);
+        board[0][2] = new Bishop(white, new Square(0, 2), whiteKing, blackKing, new StraightLineMove());
+        board[0][3] = new Queen(white, new Square(0, 3), whiteKing, blackKing, new StraightLineMove());
+        board[0][5] = new Bishop(white, new Square(0, 5), whiteKing, blackKing, new StraightLineMove());
         board[0][6] = new Knight(white, new Square(0, 6), whiteKing, blackKing);
-        board[0][7] = new Rook(white, new Square(0, 7), whiteKing, blackKing);
+        board[0][7] = new Rook(white, new Square(0, 7), whiteKing, blackKing, new StraightLineMove());
         Piece[] whitePanwRow = board[1];
         for (int i = 0; i < whitePanwRow.length; i++) {
             whitePanwRow[i] = new Pawn(white, new Square(1, i), new White(), whiteKing, blackKing);
@@ -73,13 +74,13 @@ public class Board {
             }
         }
 
-        board[7][0] = new Rook(black, new Square(7, 0), blackKing, whiteKing);
+        board[7][0] = new Rook(black, new Square(7, 0), blackKing, whiteKing, new StraightLineMove());
         board[7][1] = new Knight(black, new Square(7, 1), blackKing, whiteKing);
-        board[7][2] = new Bishop(black, new Square(7, 2), blackKing, whiteKing);
-        board[7][3] = new Queen(black, new Square(7, 3), blackKing, whiteKing);
-        board[7][5] = new Bishop(black, new Square(7, 5), blackKing, whiteKing);
+        board[7][2] = new Bishop(black, new Square(7, 2), blackKing, whiteKing, new StraightLineMove());
+        board[7][3] = new Queen(black, new Square(7, 3), blackKing, whiteKing, new StraightLineMove());
+        board[7][5] = new Bishop(black, new Square(7, 5), blackKing, whiteKing, new StraightLineMove());
         board[7][6] = new Knight(black, new Square(7, 6), blackKing, whiteKing);
-        board[7][7] = new Rook(black, new Square(7, 7), blackKing, whiteKing);
+        board[7][7] = new Rook(black, new Square(7, 7), blackKing, whiteKing, new StraightLineMove());
 
         Piece[] blackPawnRow = board[6];
         for (int i = 0; i < blackPawnRow.length; i++) {
@@ -145,6 +146,7 @@ public class Board {
         return square.getY() >= 0 && square.getY() <= 7 && square.getX() >= 0 && square.getX() <= 7;
     }
 
+    //TODO: Fix this.
     public Square getEmptySquareOrEnemySquareOrOriginalSquare(Square src, NeighboringSquareDirection neighboringSquareDirection, Player owner) {
         switch (neighboringSquareDirection) {
             case Left: {

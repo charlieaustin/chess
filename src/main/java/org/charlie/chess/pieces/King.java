@@ -54,7 +54,6 @@ public class King extends BasePiece {
     }
 
     @Override
-    // TODO Add castling moves
     public PossibleMoves getPossibleMoves(Board board) {
         PossibleMoves possibleMoves = new PossibleMoves();
         for (Square adjacentSquare : adjacentSquares) {

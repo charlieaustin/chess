@@ -9,11 +9,12 @@ import org.charlie.chess.players.Player;
 
 public class Rook extends BasePiece {
 
-    private final StraightLineMove straightLineMove = new StraightLineMove();
+    private final StraightLineMove straightLineMove;
     private boolean hasMoved = false;
 
-    public Rook(Player owner, Square square, King myKing, King yourKing) {
+    public Rook(Player owner, Square square, King myKing, King yourKing, StraightLineMove straightLineMove) {
         super(owner, square, myKing, yourKing);
+        this.straightLineMove = straightLineMove;
     }
 
     @Override

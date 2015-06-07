@@ -9,10 +9,11 @@ import org.charlie.chess.players.Player;
 
 public class Queen extends BasePiece {
 
-    private final StraightLineMove straightLineMove = new StraightLineMove();
+    private final StraightLineMove straightLineMove;
 
-    public Queen(Player owner, Square square, King myKing, King yourKing) {
+    public Queen(Player owner, Square square, King myKing, King yourKing, StraightLineMove straightLineMove) {
         super(owner, square, myKing, yourKing);
+        this.straightLineMove = straightLineMove;
     }
 
     @Override

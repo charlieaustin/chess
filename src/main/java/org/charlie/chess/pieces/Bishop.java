@@ -10,11 +10,11 @@ import org.charlie.chess.players.Player;
 public class Bishop extends BasePiece {
 
 
-    // TODO: Put this into the constructor to make this class testable
-    private final StraightLineMove straightLineMove = new StraightLineMove();
+    private final StraightLineMove straightLineMove;
 
-    public Bishop(Player owner, Square square, King myKing, King yourKing) {
+    public Bishop(Player owner, Square square, King myKing, King yourKing, StraightLineMove straightLineMove) {
         super(owner, square, myKing, yourKing);
+        this.straightLineMove = straightLineMove;
     }
 
     @Override
