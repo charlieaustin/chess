@@ -21,6 +21,7 @@ public class Board {
     private boolean hasWinner;
     private GameResult gameResult;
     private Map<Player, Set<Piece>> pieces = new HashMap<>();
+    private int fiftyMoveRule = 0;
 
 
     public Board(Piece[][] board, Moves moves) {
@@ -100,6 +101,10 @@ public class Board {
         final ChessMove chessMove = movingPlayer.selectMove(copy());
         chessMove.move(this);
         moves.addLastMove(chessMove);
+        fiftyMoveRule += 1;
+        if (fiftyMoveRule > 100) {
+            hasWinner = true;
+        }
     }
 
     public ChessMove getLastMove() {
@@ -126,7 +131,7 @@ public class Board {
     }
 
     public void setHasWinner(Player winner, Player loser) {
-        this.gameResult = new GameResult(winner, loser, moves);
+        this.gameResult = new GameResult(winner, loser, moves, winner == null && loser == null);
         this.hasWinner = true;
     }
 
@@ -310,8 +315,13 @@ public class Board {
         return isLocationOnBoard(src) && isLocationOnBoard(dest) && isBetween;
     }
 
+    public void resetFiftyMoveRule() {
+        fiftyMoveRule = 0;
+    }
+
     public void markAsTaken(Piece piece, Player owner) {
         Set<Piece> pieceSet = pieces.get(owner);
         pieceSet.remove(piece);
+        resetFiftyMoveRule();
     }
 }

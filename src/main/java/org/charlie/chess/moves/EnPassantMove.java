@@ -29,6 +29,7 @@ public class EnPassantMove implements ChessMove {
         board.setNullAt(source);
         board.setPieceAt(dest, moving);
         movingPiece.move(dest);
+        board.resetFiftyMoveRule();
     }
 
     @Override

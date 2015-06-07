@@ -31,6 +31,7 @@ public class UpgradePawnMove implements ChessMove {
         moving.markAsTaken(board);
         board.setPieceAt(dest, newPiece);
         newPiece.move(dest);
+        board.resetFiftyMoveRule();
     }
 
     @Override

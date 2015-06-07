@@ -5,10 +5,7 @@ import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.Square;
 import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.directions.PawnDirection;
-import org.charlie.chess.moves.EnPassantMove;
-import org.charlie.chess.moves.SimpleMove;
-import org.charlie.chess.moves.StraightLineMove;
-import org.charlie.chess.moves.UpgradePawnMove;
+import org.charlie.chess.moves.*;
 import org.charlie.chess.players.Player;
 
 public class Pawn extends BasePiece {
@@ -39,7 +36,7 @@ public class Pawn extends BasePiece {
         }
 
         if (!takenFirstMove && !board.isPieceBetween(currentLocation, twoInFront) && !board.isPieceAt(twoInFront)) {
-            possibleMoves.addMove(new SimpleMove(currentLocation, twoInFront, this));
+            possibleMoves.addMove(new PawnMove(new SimpleMove(currentLocation, twoInFront, this)));
         }
 
         if (isEnPassantPossible(NeighboringSquareDirection.Right, right, board)) {
@@ -84,7 +81,7 @@ public class Pawn extends BasePiece {
             possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Queen(owner, dest, new StraightLineMove())));
             possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Rook(owner, dest, new StraightLineMove())));
         } else {
-            possibleMoves.addMove(new SimpleMove(currentLocation, dest, this));
+            possibleMoves.addMove(new PawnMove(new SimpleMove(currentLocation, dest, this)));
         }
     }
 
