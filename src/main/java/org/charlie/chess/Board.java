@@ -8,6 +8,8 @@ import org.charlie.chess.moves.Moves;
 import org.charlie.chess.pieces.*;
 import org.charlie.chess.players.Player;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,7 +19,7 @@ public class Board {
     private Piece[][] board;
     private boolean hasWinner;
     private GameResult gameResult;
-    private Map<Player, Set<Piece>> pieces;
+    private Map<Player, Set<Piece>> pieces = new HashMap<>();
 
 
     public Board(Piece[][] board, Moves moves) {
@@ -42,9 +44,13 @@ public class Board {
     }
 
     public void setUpBoard(Player white, Player black) {
+        pieces.clear();
+        Set<Piece> whitePieces = new HashSet<>();
+        Set<Piece> blackPieces = new HashSet<>();
         assert (board.length == 8);
         assert (board[0].length == 8);
         King whiteKing = new King(white, black, new Square(0, 4));
+        whitePieces.add(whiteKing);
         King blackKing = new King(black, white, new Square(7, 4));
 
         board[0][4] = whiteKing;
@@ -61,6 +67,11 @@ public class Board {
         for (int i = 0; i < whitePanwRow.length; i++) {
             whitePanwRow[i] = new Pawn(white, new Square(1, i), new White(), whiteKing, blackKing);
         }
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 8; j++) {
+                whitePieces.add(board[i][j]);
+            }
+        }
 
         board[7][0] = new Rook(black, new Square(7, 0), blackKing, whiteKing);
         board[7][1] = new Knight(black, new Square(7, 1), blackKing, whiteKing);
@@ -70,10 +81,18 @@ public class Board {
         board[7][6] = new Knight(black, new Square(7, 6), blackKing, whiteKing);
         board[7][7] = new Rook(black, new Square(7, 7), blackKing, whiteKing);
 
-        Piece[] blackPawnRow = board[1];
+        Piece[] blackPawnRow = board[6];
         for (int i = 0; i < blackPawnRow.length; i++) {
             blackPawnRow[i] = new Pawn(black, new Square(1, i), new Black(), blackKing, whiteKing);
         }
+        for (int i = 6; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                whitePieces.add(board[i][j]);
+            }
+        }
+
+        pieces.put(white, whitePieces);
+        pieces.put(black, blackPieces);
     }
 
     public void move(Player movingPlayer) {
