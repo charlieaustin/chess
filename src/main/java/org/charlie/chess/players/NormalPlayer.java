@@ -1,7 +1,7 @@
 package org.charlie.chess.players;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.PossibleMoves;
+import org.charlie.chess.moves.PossibleMoves;
 import org.charlie.chess.moves.ChessMove;
 import org.charlie.chess.moves.ForfeitGameMove;
 import org.charlie.chess.pieces.King;
@@ -30,19 +30,15 @@ public class NormalPlayer implements Player {
     }
 
     ChessMove lookForCheck(Board board, PossibleMoves possibleMoves) {
-        if (opponent == null) {
-            throw new RuntimeException("Opponent should not be null");
-        }
-
         for (ChessMove possibleMove : possibleMoves) {
-            boolean kingInCheck = false;
+            boolean kingInCheck = true;
             Board copiedBoard = board.copy();
-            possibleMove.move(copiedBoard);
+            possibleMove.lookForCheck(copiedBoard);
             PossibleMoves possibleMovesFor = copiedBoard.getPossibleMovesFor(opponent);
             for (ChessMove opponentMove : possibleMovesFor) {
                 King myKing = copiedBoard.getOpponentKingAt(opponentMove.getDest(), opponent);
-                if (myKing != null) {
-                    kingInCheck = true;
+                if (myKing == null) {
+                    kingInCheck = false;
                     break;
                 }
             }
@@ -61,5 +57,30 @@ public class NormalPlayer implements Player {
     @Override
     public PlayerStats getStats() {
         return stats;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NormalPlayer that = (NormalPlayer) o;
+
+        if (stats != null ? !stats.equals(that.stats) : that.stats != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return stats != null ? stats.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return "NormalPlayer{" +
+                "stats=" + stats +
+                ", opponent=" + opponent.getStats() +
+                '}';
     }
 }

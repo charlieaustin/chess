@@ -1,9 +1,9 @@
-package org.charlie.chess;
+package org.charlie.chess.game;
 
 import org.charlie.chess.moves.Moves;
 import org.charlie.chess.players.Player;
 
-class GameResult {
+public class GameResult {
     private final Player winner;
     private final Player loser;
     private final Moves moves;
@@ -14,5 +14,15 @@ class GameResult {
         this.loser = loser;
         this.moves = moves;
         this.isDraw = isDraw;
+    }
+
+    @Override
+    public String toString() {
+        return "GameResult{" +
+                "winner=" + winner +
+                ", loser=" + loser +
+                ", moves=" + moves +
+                ", isDraw=" + isDraw +
+                '}';
     }
 }

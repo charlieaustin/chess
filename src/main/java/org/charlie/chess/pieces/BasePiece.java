@@ -1,16 +1,14 @@
 package org.charlie.chess.pieces;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.PossibleMoves;
+import org.charlie.chess.moves.PossibleMoves;
 import org.charlie.chess.Square;
 import org.charlie.chess.players.Player;
 
 abstract class BasePiece implements Piece {
 
-    final Player owner;
+    protected final Player owner;
     Square currentLocation;
-
-    private King kingIPutInCheck = null;
 
     BasePiece(Player owner, Square currentLocation) {
         this.owner = owner;
@@ -42,14 +40,6 @@ abstract class BasePiece implements Piece {
 
     public boolean isOwnedBy(Player owner) {
         return this.owner.isSame(owner);
-    }
-
-    public void theKingIPutInCheck(King king) {
-        kingIPutInCheck = king;
-    }
-
-    public boolean isOpponentInCheck() {
-        return kingIPutInCheck != null;
     }
 
     @Override

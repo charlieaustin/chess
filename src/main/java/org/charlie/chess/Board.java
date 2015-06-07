@@ -3,8 +3,10 @@ package org.charlie.chess;
 import org.charlie.chess.directions.Black;
 import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.directions.White;
+import org.charlie.chess.game.GameResult;
 import org.charlie.chess.moves.ChessMove;
 import org.charlie.chess.moves.Moves;
+import org.charlie.chess.moves.PossibleMoves;
 import org.charlie.chess.moves.StraightLineMove;
 import org.charlie.chess.pieces.*;
 import org.charlie.chess.players.Player;
@@ -19,14 +21,18 @@ public class Board {
     private final Moves moves;
     private final Piece[][] board;
     private boolean hasWinner;
+    private final Player white;
+    private final Player black;
     private GameResult gameResult;
-    private final Map<Player, Set<Piece>> pieces = new HashMap<>();
+    private Map<Player, Set<Piece>> pieces = new HashMap<>();
     private int fiftyMoveRule = 0;
 
 
-    public Board(Piece[][] board, Moves moves) {
+    public Board(Piece[][] board, Moves moves, Player white, Player black) {
         this.board = board;
         this.moves = moves;
+        this.white = white;
+        this.black = black;
     }
 
     public Board copy() {
@@ -38,14 +44,23 @@ public class Board {
             System.arraycopy(aMatrix, 0, pieces[i], 0, aLength);
         }
 
-        return new Board(pieces, moves.copy());
+        Board copiedBoard = new Board(pieces, moves.copy(), white, black);
+
+        HashMap<Player, Set<Piece>> playerSetHashMap = new HashMap<>();
+        for (Player player : this.pieces.keySet()) {
+            HashSet<Piece> hashSet = new HashSet<>();
+            hashSet.addAll(this.pieces.get(player));
+            playerSetHashMap.put(player, hashSet);
+        }
+        copiedBoard.pieces = playerSetHashMap;
+        return copiedBoard;
     }
 
     public boolean hasNoWinner() {
         return !hasWinner;
     }
 
-    public void setUpBoard(Player white, Player black) {
+    public void setUpBoard() {
         white.setOpponent(black);
         black.setOpponent(white);
         pieces.clear();
@@ -95,7 +110,7 @@ public class Board {
 
         Piece[] blackPawnRow = board[6];
         for (int i = 0; i < blackPawnRow.length; i++) {
-            blackPawnRow[i] = new Pawn(black, new Square(1, i), new Black());
+            blackPawnRow[i] = new Pawn(black, new Square(6, i), new Black());
         }
         for (int i = 6; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -108,12 +123,12 @@ public class Board {
     }
 
     public void move(Player movingPlayer) {
-        final ChessMove chessMove = movingPlayer.selectMove(this);
+        final ChessMove chessMove = movingPlayer.selectMove(this.copy());
         chessMove.move(this);
         moves.addLastMove(chessMove);
         fiftyMoveRule += 1;
         if (fiftyMoveRule > 100) {
-            hasWinner = true;
+            setHasWinner(null, null);
         }
     }
 
@@ -129,15 +144,19 @@ public class Board {
     }
 
     public void setNullAt(Square square) {
-        board[square.getX()][square.getY()] = null;
+        if (isLocationOnBoard(square)) {
+            board[square.getX()][square.getY()] = null;
+        }
     }
 
     public void setPieceAt(Square square, Piece piece) {
-        board[square.getX()][square.getY()] = piece;
+        if (isLocationOnBoard(square)) {
+            board[square.getX()][square.getY()] = piece;
+        }
     }
 
     public void setHasWinner(Player winner, Player loser) {
-        this.gameResult = new GameResult(winner, loser, moves, winner == null && loser == null);
+        this.gameResult = new GameResult(winner, loser, moves.copy(), winner == null && loser == null);
         this.hasWinner = true;
     }
 
@@ -154,7 +173,9 @@ public class Board {
     }
 
     private boolean isLocationOnBoard(Square square) {
-        return square.getY() >= 0 && square.getY() <= 7 && square.getX() >= 0 && square.getX() <= 7;
+        int y = square.getY();
+        int x = square.getX();
+        return y >= 0 && y <= 7 && x >= 0 && x <= 7;
     }
 
     //TODO: Fix this.
@@ -299,6 +320,14 @@ public class Board {
         return isOpponentsPieceAt(location, owner) && getPieceAt(location).isKing();
     }
 
+    private boolean isEmpty(Square square) {
+        return isLocationOnBoard(square) && getPieceAt(square) == null;
+    }
+
+    public boolean squareIsEmptyOrHasOpponent(Square location, Player owner) {
+        return isOpponentsPieceAt(location, owner) || isEmpty(location);
+    }
+
     public PossibleMoves getPossibleMovesFor(Player owner) {
         Set<Piece> ownerPieces = pieces.get(owner);
         PossibleMoves normalChessMoves = new PossibleMoves();
@@ -329,5 +358,33 @@ public class Board {
         Set<Piece> pieceSet = pieces.get(owner);
         pieceSet.remove(piece);
         resetFiftyMoveRule();
+    }
+
+    public void addPieceToPlayer(Piece piece, Player ownder) {
+        Set<Piece> pieces1 = pieces.get(ownder);
+        pieces1.add(piece);
+    }
+
+    public void printBoard() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Piece[] row : board) {
+            for (Piece column : row) {
+                if (column == null) {
+                    stringBuilder.append(".");
+                } else {
+                    if (column.isOwnedBy(white)) {
+                        stringBuilder.append(column.stringRepresentation().toLowerCase());
+                    } else {
+                        stringBuilder.append(column.stringRepresentation());
+                    }
+                }
+            }
+            stringBuilder.append("\n");
+        }
+        System.out.println(stringBuilder.toString());
+    }
+
+    public GameResult getGameResult() {
+        return gameResult;
     }
 }

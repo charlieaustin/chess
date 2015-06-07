@@ -1,7 +1,7 @@
 package org.charlie.chess.pieces;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.PossibleMoves;
+import org.charlie.chess.moves.PossibleMoves;
 import org.charlie.chess.Square;
 import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.moves.StraightLineMove;
@@ -24,5 +24,10 @@ public class Queen extends BasePiece {
         }
 
         return possibleMoves;
+    }
+
+    @Override
+    public String stringRepresentation() {
+        return "Q";
     }
 }

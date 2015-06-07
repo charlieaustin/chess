@@ -3,15 +3,17 @@ package org.charlie.chess.moves;
 import org.charlie.chess.Board;
 import org.charlie.chess.Square;
 import org.charlie.chess.directions.NeighboringSquareDirection;
+import org.charlie.chess.moves.representation.Representation;
 import org.charlie.chess.pieces.Piece;
 import org.charlie.chess.players.Player;
 
 public class SimpleMove implements ChessMove {
+
     private final Square src;
     private final Square dest;
-
     private final Piece piece;
 
+    private Representation representation;
 
     public SimpleMove(Square src, Square dest, Piece piece) {
         assert (src != null);
@@ -29,14 +31,33 @@ public class SimpleMove implements ChessMove {
     }
 
     @Override
+    public void setRepresentation(Representation representation) {
+        this.representation = representation;
+    }
+
+    @Override
+    public String toRepresentation() {
+        return piece.stringRepresentation() + representation.getSquareRepresentation(dest);
+    }
+
+    @Override
     public void move(Board board) {
+        moveOnBoard(board);
+        piece.move(dest);
+    }
+
+    @Override
+    public void lookForCheck(Board board) {
+        moveOnBoard(board);
+    }
+
+    protected void moveOnBoard(Board board) {
         Piece pieceAt = board.getPieceAt(dest);
         if (pieceAt != null) {
             pieceAt.markAsTaken(board);
         }
         board.setNullAt(src);
         board.setPieceAt(dest, piece);
-        piece.move(dest);
     }
 
     @Override
@@ -70,13 +91,22 @@ public class SimpleMove implements ChessMove {
 
 
     NeighboringSquareDirection isLeftOrRightOf(Square square) {
-        if (dest.getY() == square.getY()) {
-            if (dest.getX() < square.getX()) {
+        if (dest.getX() == square.getX()) {
+            if (dest.getY() < square.getY()) {
                 return NeighboringSquareDirection.Left;
             } else {
                 return NeighboringSquareDirection.Right;
             }
         }
         return NeighboringSquareDirection.NotNeighbor;
+    }
+
+    @Override
+    public String toString() {
+        return "SimpleMove{" +
+                "src=" + src +
+                ", dest=" + dest +
+                ", piece=" + piece +
+                '}';
     }
 }

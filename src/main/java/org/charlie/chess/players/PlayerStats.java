@@ -34,4 +34,13 @@ public class PlayerStats {
         result = 31 * result + losses;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "PlayerStats{" +
+                "name='" + name + '\'' +
+                ", wins=" + wins +
+                ", losses=" + losses +
+                '}';
+    }
 }

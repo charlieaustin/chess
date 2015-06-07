@@ -34,7 +34,7 @@ public class BoardTest {
     @Before
     public void setUp() {
         Mockito.when(movingPlayer.selectMove(Mockito.any(Board.class))).thenReturn(chessMove);
-        board = new Board(internalBoard, moves);
+        board = new Board(internalBoard, moves, movingPlayer, movingPlayer);
     }
 
     @Test

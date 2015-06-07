@@ -1,7 +1,7 @@
 package org.charlie.chess.pieces;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.PossibleMoves;
+import org.charlie.chess.moves.PossibleMoves;
 import org.charlie.chess.Square;
 import org.charlie.chess.moves.SimpleMove;
 import org.charlie.chess.players.Player;
@@ -38,14 +38,14 @@ public class Knight extends BasePiece {
     }
 
     private void updateLocation() {
-        upLeft = new Square(currentLocation.getX() - 3, currentLocation.getY() - 1);
-        upRight = new Square(currentLocation.getX() - 3, currentLocation.getY() + 1);
-        rightUp = new Square(currentLocation.getX() - 1, currentLocation.getY() + 3);
-        rightDown = new Square(currentLocation.getX() + 1, currentLocation.getY() + 3);
-        downLeft = new Square(currentLocation.getX() + 3, currentLocation.getY() - 1);
-        downRight = new Square(currentLocation.getX() + 3, currentLocation.getY() + 1);
-        leftUp = new Square(currentLocation.getX() - 1, currentLocation.getY() - 3);
-        leftDown = new Square(currentLocation.getX() + 1, currentLocation.getY() - 3);
+        upLeft = new Square(currentLocation.getX() - 2, currentLocation.getY() - 1);
+        upRight = new Square(currentLocation.getX() - 2, currentLocation.getY() + 1);
+        rightUp = new Square(currentLocation.getX() - 1, currentLocation.getY() + 2);
+        rightDown = new Square(currentLocation.getX() + 1, currentLocation.getY() + 2);
+        downLeft = new Square(currentLocation.getX() + 2, currentLocation.getY() - 1);
+        downRight = new Square(currentLocation.getX() + 2, currentLocation.getY() + 1);
+        leftUp = new Square(currentLocation.getX() - 1, currentLocation.getY() - 2);
+        leftDown = new Square(currentLocation.getX() + 1, currentLocation.getY() - 2);
         possibleDestinations.clear();
         possibleDestinations.add(upLeft);
         possibleDestinations.add(upRight);
@@ -59,8 +59,13 @@ public class Knight extends BasePiece {
     }
 
     private void canMoveToSquare(PossibleMoves possibleMoves, Square dest, Board board) {
-        if (board.isOpponentsPieceAt(dest, owner) || !board.isPieceAt(dest)) {
+        if (board.squareIsEmptyOrHasOpponent(dest, owner)) {
             possibleMoves.addMove(new SimpleMove(currentLocation, dest, this));
         }
+    }
+
+    @Override
+    public String stringRepresentation() {
+        return "N";
     }
 }

@@ -73,4 +73,11 @@ public class Square {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Square{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

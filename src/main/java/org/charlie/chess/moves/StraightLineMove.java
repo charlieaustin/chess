@@ -1,7 +1,6 @@
 package org.charlie.chess.moves;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.Square;
 import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.pieces.Piece;
@@ -25,6 +24,5 @@ public class StraightLineMove {
         if (board.isOpponentsPieceAt(emptyOrEnemySquare, owner)) {
             possibleMoves.addMove(new SimpleMove(square, emptyOrEnemySquare, piece));
         }
-
     }
 }

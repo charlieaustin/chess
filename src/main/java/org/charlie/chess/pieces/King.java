@@ -1,7 +1,7 @@
 package org.charlie.chess.pieces;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.PossibleMoves;
+import org.charlie.chess.moves.PossibleMoves;
 import org.charlie.chess.Square;
 import org.charlie.chess.moves.CastleMove;
 import org.charlie.chess.moves.ChessMove;
@@ -26,21 +26,21 @@ public class King extends BasePiece {
     public King(Player owner, Player opponent, Square square) {
         super(owner, square);
         this.opponent = opponent;
-        updateLocation(square);
+        updateLocation();
     }
 
-    private void updateLocation(Square square) {
+    private void updateLocation() {
         adjacentSquares.clear();
-        Square forward = new Square(square.getX() - 1, square.getY());
-        Square forwardRight = new Square(square.getX() - 1, square.getY() + 1);
-        Square right = new Square(square.getX(), square.getY() + 1);
-        twoRight = new Square(square.getX(), square.getY() + 2);
-        Square backwardRight = new Square(square.getX() + 1, square.getY() + 1);
-        Square backward = new Square(square.getX() + 1, square.getY());
-        Square backwardLeft = new Square(square.getX() + 1, square.getY() - 1);
-        Square left = new Square(square.getX(), square.getY() - 1);
-        twoLeft = new Square(square.getX(), square.getY() - 2);
-        Square forwardLeft = new Square(square.getX() - 1, square.getY() - 1);
+        Square forward = new Square(currentLocation.getX() - 1, currentLocation.getY());
+        Square forwardRight = new Square(currentLocation.getX() - 1, currentLocation.getY() + 1);
+        Square right = new Square(currentLocation.getX(), currentLocation.getY() + 1);
+        twoRight = new Square(currentLocation.getX(), currentLocation.getY() + 2);
+        Square backwardRight = new Square(currentLocation.getX() + 1, currentLocation.getY() + 1);
+        Square backward = new Square(currentLocation.getX() + 1, currentLocation.getY());
+        Square backwardLeft = new Square(currentLocation.getX() + 1, currentLocation.getY() - 1);
+        Square left = new Square(currentLocation.getX(), currentLocation.getY() - 1);
+        twoLeft = new Square(currentLocation.getX(), currentLocation.getY() - 2);
+        Square forwardLeft = new Square(currentLocation.getX() - 1, currentLocation.getY() - 1);
         this.left = left;
         this.right = right;
         adjacentSquares.add(forward);
@@ -56,14 +56,15 @@ public class King extends BasePiece {
     @Override
     public PossibleMoves getPossibleMoves(Board board) {
         PossibleMoves possibleMoves = new PossibleMoves();
-        for (Square adjacentSquare : adjacentSquares) {
-            possibleMoves.addMove(new SimpleMove(currentLocation, adjacentSquare, this));
-        }
+        adjacentSquares
+                .stream()
+                .filter(adjacentSquare -> board.squareIsEmptyOrHasOpponent(adjacentSquare, owner))
+                .forEach(adjacentSquare -> possibleMoves.addMove(new SimpleMove(currentLocation, adjacentSquare, this)));
 
-        if (getHasNotMoved() && leftRook.getHasNotMoved()) {
+        if (getHasNotMoved() && leftRook.getHasNotMoved() && !board.isPieceBetween(currentLocation, leftRook.getCurrentLocation())) {
             addCastleMove(board, possibleMoves, left, leftRook, left, twoLeft);
         }
-        if (getHasNotMoved() && rightRook.getHasNotMoved()) {
+        if (getHasNotMoved() && rightRook.getHasNotMoved() && !board.isPieceBetween(currentLocation, leftRook.getCurrentLocation())) {
             addCastleMove(board, possibleMoves, right, rightRook, right, twoRight);
         }
         return possibleMoves;
@@ -78,7 +79,7 @@ public class King extends BasePiece {
         boolean canMakeMove = true;
         SimpleMove possibleMove = new SimpleMove(currentLocation, leftOrRight, this);
         Board copiedBoard = board.copy();
-        possibleMove.move(copiedBoard);
+        possibleMove.lookForCheck(copiedBoard);
         PossibleMoves opponentMoves = copiedBoard.getPossibleMovesFor(opponent);
         for (ChessMove simpleMove : opponentMoves) {
             King opponentKingAt = copiedBoard.getOpponentKingAt(simpleMove.getDest(), opponent);
@@ -95,7 +96,13 @@ public class King extends BasePiece {
     @Override
     public void move(Square dest) {
         hasMoved = true;
-        updateLocation(dest);
+        super.move(dest);
+        updateLocation();
+    }
+
+    @Override
+    public String stringRepresentation() {
+        return "K";
     }
 
     @Override

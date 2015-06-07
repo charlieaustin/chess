@@ -3,6 +3,7 @@ package org.charlie.chess.moves;
 import org.charlie.chess.Board;
 import org.charlie.chess.Square;
 import org.charlie.chess.directions.NeighboringSquareDirection;
+import org.charlie.chess.moves.representation.Representation;
 import org.charlie.chess.pieces.King;
 import org.charlie.chess.pieces.Rook;
 import org.charlie.chess.players.Player;
@@ -16,6 +17,7 @@ public class CastleMove implements ChessMove {
     private final Square kingDest;
     private final Square kingsSrc;
     private final Square rookSrc;
+    private Representation representation;
 
     public CastleMove(King king,
                       Rook rook,
@@ -34,12 +36,21 @@ public class CastleMove implements ChessMove {
 
     @Override
     public void move(Board board) {
+        moveOnBoard(board);
+        king.move(kingDest);
+        rook.move(rookDest);
+    }
+
+    private void moveOnBoard(Board board) {
         board.setNullAt(kingsSrc);
         board.setNullAt(rookSrc);
         board.setPieceAt(kingDest, king);
         board.setPieceAt(rookDest, rook);
-        king.move(kingDest);
-        rook.move(rookDest);
+    }
+
+    @Override
+    public void lookForCheck(Board board) {
+       moveOnBoard(board);
     }
 
     @Override
@@ -50,7 +61,34 @@ public class CastleMove implements ChessMove {
 
     @Override
     public Square getDest() {
+        return kingDest;
+    }
+
+    @Override
+    public void setRepresentation(Representation representation) {
+        this.representation = representation;
+    }
+
+    @Override
+    public String toRepresentation() {
+        if (king.getCurrentLocation().getY() < rook.getCurrentLocation().getY()) {
+            representation.kingSideCastle();
+        } else {
+            return representation.queenSideCastle();
+        }
         return null;
     }
 
+
+    @Override
+    public String toString() {
+        return "CastleMove{" +
+                "king=" + king +
+                ", rook=" + rook +
+                ", rookDest=" + rookDest +
+                ", kingDest=" + kingDest +
+                ", kingsSrc=" + kingsSrc +
+                ", rookSrc=" + rookSrc +
+                '}';
+    }
 }

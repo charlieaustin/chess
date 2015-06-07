@@ -1,7 +1,4 @@
-package org.charlie.chess;
-
-import org.charlie.chess.moves.ChessMove;
-import org.charlie.chess.moves.SimpleMove;
+package org.charlie.chess.moves;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -43,5 +40,7 @@ public class PossibleMoves implements Iterable<ChessMove> {
     public Spliterator<ChessMove> spliterator() {
         return possibleMoves.spliterator();
     }
+    
+    
 
 }

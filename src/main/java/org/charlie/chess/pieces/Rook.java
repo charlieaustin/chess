@@ -1,7 +1,7 @@
 package org.charlie.chess.pieces;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.PossibleMoves;
+import org.charlie.chess.moves.PossibleMoves;
 import org.charlie.chess.Square;
 import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.moves.StraightLineMove;
@@ -28,10 +28,16 @@ public class Rook extends BasePiece {
 
     @Override
     public void move(Square dest) {
+        super.move(dest);
         hasMoved = true;
     }
 
     public boolean getHasNotMoved() {
         return !hasMoved;
+    }
+
+    @Override
+    public String stringRepresentation() {
+        return "R";
     }
 }

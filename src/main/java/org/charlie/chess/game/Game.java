@@ -1,8 +1,9 @@
-package org.charlie.chess;
+package org.charlie.chess.game;
 
+import org.charlie.chess.Board;
 import org.charlie.chess.players.Player;
 
-class Game {
+public class Game {
 
     private final Board board;
     private final Player white;
@@ -16,12 +17,14 @@ class Game {
 
 
     public void playGame() {
-        board.setUpBoard(white, black);
+        board.setUpBoard();
         Player movingPlayer = white;
         while (board.hasNoWinner()) {
             board.move(movingPlayer);
             movingPlayer = switchPlayers(movingPlayer);
+            board.printBoard();
         }
+        System.out.println(board.getGameResult());
     }
 
     private Player switchPlayers(Player movingPlayer) {
