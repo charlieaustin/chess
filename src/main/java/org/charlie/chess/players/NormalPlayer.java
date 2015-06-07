@@ -1,20 +1,17 @@
 package org.charlie.chess.players;
 
 import org.charlie.chess.Board;
-import org.charlie.chess.PlayerPieces;
 import org.charlie.chess.PossibleMoves;
 import org.charlie.chess.moves.ChessMove;
-import org.charlie.chess.moves.ForfeitChessMove;
+import org.charlie.chess.moves.ForfeitGameMove;
 import org.charlie.chess.pieces.King;
 
 public class NormalPlayer implements Player {
 
-    private final PlayerPieces myPieces;
     private final PlayerStats stats;
     private Player opponent = null;
 
-    public NormalPlayer(PlayerPieces myPieces, PlayerStats stats) {
-        this.myPieces = myPieces;
+    public NormalPlayer(PlayerStats stats) {
         this.stats = stats;
     }
 
@@ -24,31 +21,36 @@ public class NormalPlayer implements Player {
 
     @Override
     public ChessMove selectMove(Board board) {
-        final PossibleMoves possibleMoves = myPieces.getPossibleMoves(board);
-        lookForCheck(board, possibleMoves);
-        if (possibleMoves.isNotEmpty()) {
-            return possibleMoves.getMove();
+        final PossibleMoves possibleMoves = board.getPossibleMovesFor(this);
+        ChessMove chessMove = lookForCheck(board, possibleMoves);
+        if (chessMove != null) {
+            return chessMove;
         }
-        return new ForfeitChessMove(opponent, this);
+        return new ForfeitGameMove(opponent, this);
     }
 
-    protected void lookForCheck(Board board, PossibleMoves possibleMoves) {
+    protected ChessMove lookForCheck(Board board, PossibleMoves possibleMoves) {
         if (opponent == null) {
             throw new RuntimeException("Opponent should not be null");
         }
 
         for (ChessMove possibleMove : possibleMoves) {
+            boolean kingInCheck = false;
             Board copiedBoard = board.copy();
             possibleMove.move(copiedBoard);
             PossibleMoves possibleMovesFor = copiedBoard.getPossibleMovesFor(opponent);
-            for (ChessMove simpleMove : possibleMovesFor) {
-                King opponentKingAt = copiedBoard.getOpponentKingAt(simpleMove.getDest(), opponent);
-                if (opponentKingAt != null) {
-                    possibleMoves.removeMove(simpleMove);
-                    return;
+            for (ChessMove opponentMove : possibleMovesFor) {
+                King myKing = copiedBoard.getOpponentKingAt(opponentMove.getDest(), opponent);
+                if (myKing != null) {
+                    kingInCheck = true;
+                    break;
                 }
             }
+            if (!kingInCheck) {
+                return possibleMove;
+            }
         }
+        return null;
     }
 
     @Override

@@ -6,12 +6,12 @@ import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.players.Player;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class ForfeitChessMove implements ChessMove {
+public class ForfeitGameMove implements ChessMove {
 
     private final Player loser;
     private final Player winner;
 
-    public ForfeitChessMove(Player winner, Player loser) {
+    public ForfeitGameMove(Player winner, Player loser) {
         this.loser = loser;
         this.winner = winner;
     }
