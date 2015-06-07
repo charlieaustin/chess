@@ -57,16 +57,16 @@ public class Board {
         board[0][4] = whiteKing;
         board[7][4] = blackKing;
 
-        board[0][0] = new Rook(white, new Square(0, 0), whiteKing, blackKing, new StraightLineMove());
-        board[0][1] = new Knight(white, new Square(0, 1), whiteKing, blackKing);
-        board[0][2] = new Bishop(white, new Square(0, 2), whiteKing, blackKing, new StraightLineMove());
-        board[0][3] = new Queen(white, new Square(0, 3), whiteKing, blackKing, new StraightLineMove());
-        board[0][5] = new Bishop(white, new Square(0, 5), whiteKing, blackKing, new StraightLineMove());
-        board[0][6] = new Knight(white, new Square(0, 6), whiteKing, blackKing);
-        board[0][7] = new Rook(white, new Square(0, 7), whiteKing, blackKing, new StraightLineMove());
+        board[0][0] = new Rook(white, new Square(0, 0), new StraightLineMove());
+        board[0][1] = new Knight(white, new Square(0, 1));
+        board[0][2] = new Bishop(white, new Square(0, 2), new StraightLineMove());
+        board[0][3] = new Queen(white, new Square(0, 3), new StraightLineMove());
+        board[0][5] = new Bishop(white, new Square(0, 5), new StraightLineMove());
+        board[0][6] = new Knight(white, new Square(0, 6));
+        board[0][7] = new Rook(white, new Square(0, 7), new StraightLineMove());
         Piece[] whitePanwRow = board[1];
         for (int i = 0; i < whitePanwRow.length; i++) {
-            whitePanwRow[i] = new Pawn(white, new Square(1, i), new White(), whiteKing, blackKing);
+            whitePanwRow[i] = new Pawn(white, new Square(1, i), new White());
         }
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 8; j++) {
@@ -74,17 +74,17 @@ public class Board {
             }
         }
 
-        board[7][0] = new Rook(black, new Square(7, 0), blackKing, whiteKing, new StraightLineMove());
-        board[7][1] = new Knight(black, new Square(7, 1), blackKing, whiteKing);
-        board[7][2] = new Bishop(black, new Square(7, 2), blackKing, whiteKing, new StraightLineMove());
-        board[7][3] = new Queen(black, new Square(7, 3), blackKing, whiteKing, new StraightLineMove());
-        board[7][5] = new Bishop(black, new Square(7, 5), blackKing, whiteKing, new StraightLineMove());
-        board[7][6] = new Knight(black, new Square(7, 6), blackKing, whiteKing);
-        board[7][7] = new Rook(black, new Square(7, 7), blackKing, whiteKing, new StraightLineMove());
+        board[7][0] = new Rook(black, new Square(7, 0), new StraightLineMove());
+        board[7][1] = new Knight(black, new Square(7, 1));
+        board[7][2] = new Bishop(black, new Square(7, 2), new StraightLineMove());
+        board[7][3] = new Queen(black, new Square(7, 3), new StraightLineMove());
+        board[7][5] = new Bishop(black, new Square(7, 5), new StraightLineMove());
+        board[7][6] = new Knight(black, new Square(7, 6));
+        board[7][7] = new Rook(black, new Square(7, 7), new StraightLineMove());
 
         Piece[] blackPawnRow = board[6];
         for (int i = 0; i < blackPawnRow.length; i++) {
-            blackPawnRow[i] = new Pawn(black, new Square(1, i), new Black(), blackKing, whiteKing);
+            blackPawnRow[i] = new Pawn(black, new Square(1, i), new Black());
         }
         for (int i = 6; i < 8; i++) {
             for (int j = 0; j < 8; j++) {

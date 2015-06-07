@@ -20,8 +20,8 @@ public class Knight extends BasePiece {
     private Square leftUp;
     private Square leftDown;
 
-    public Knight(Player owner, Square currentLocation, King myKing, King yourKing) {
-        super(owner, currentLocation, myKing, yourKing);
+    public Knight(Player owner, Square currentLocation) {
+        super(owner, currentLocation);
         updateLocation();
     }
 

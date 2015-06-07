@@ -7,6 +7,7 @@ import org.charlie.chess.directions.NeighboringSquareDirection;
 import org.charlie.chess.directions.PawnDirection;
 import org.charlie.chess.moves.EnPassantMove;
 import org.charlie.chess.moves.SimpleMove;
+import org.charlie.chess.moves.StraightLineMove;
 import org.charlie.chess.moves.UpgradePawnMove;
 import org.charlie.chess.players.Player;
 
@@ -22,8 +23,8 @@ public class Pawn extends BasePiece {
     private Square twoInFront;
     private int numberOfMoves = 0;
 
-    public Pawn(Player owner, Square currentLocation, PawnDirection pawnDirection, King myKing, King yourKing) {
-        super(owner, currentLocation, myKing, yourKing);
+    public Pawn(Player owner, Square currentLocation, PawnDirection pawnDirection) {
+        super(owner, currentLocation);
         this.pawnDirection = pawnDirection;
 
         updateLocation(currentLocation);
@@ -78,10 +79,10 @@ public class Pawn extends BasePiece {
 
     private void upgradeIfPossible(PossibleMoves possibleMoves, Square dest) {
         if (numberOfMoves == 5) {
-            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Bishop(owner, dest, null, null)));
-            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Knight(owner, dest, null, null)));
-            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Queen(owner, dest, null, null)));
-            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Rook(owner, dest, null, null, straightLineMove)));
+            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Bishop(owner, dest, new StraightLineMove())));
+            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Knight(owner, dest)));
+            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Queen(owner, dest, new StraightLineMove())));
+            possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Rook(owner, dest, new StraightLineMove())));
         } else {
             possibleMoves.addMove(new SimpleMove(currentLocation, dest, this));
         }

@@ -24,7 +24,7 @@ public class King extends BasePiece {
     private Square twoRight;
 
     public King(Player owner, Player opponent, Square square) {
-        super(owner, square, null, null);
+        super(owner, square);
         this.opponent = opponent;
         updateLocation(square);
     }

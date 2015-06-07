@@ -12,8 +12,8 @@ public class Bishop extends BasePiece {
 
     private final StraightLineMove straightLineMove;
 
-    public Bishop(Player owner, Square square, King myKing, King yourKing, StraightLineMove straightLineMove) {
-        super(owner, square, myKing, yourKing);
+    public Bishop(Player owner, Square square, StraightLineMove straightLineMove) {
+        super(owner, square);
         this.straightLineMove = straightLineMove;
     }
 

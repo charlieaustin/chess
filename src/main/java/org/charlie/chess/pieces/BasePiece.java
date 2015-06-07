@@ -12,7 +12,7 @@ abstract class BasePiece implements Piece {
 
     private King kingIPutInCheck = null;
 
-    protected BasePiece(Player owner, Square currentLocation, King myKing, King yourKing) {
+    protected BasePiece(Player owner, Square currentLocation) {
         this.owner = owner;
         this.currentLocation = currentLocation;
     }

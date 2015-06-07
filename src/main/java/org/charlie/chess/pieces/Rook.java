@@ -12,8 +12,8 @@ public class Rook extends BasePiece {
     private final StraightLineMove straightLineMove;
     private boolean hasMoved = false;
 
-    public Rook(Player owner, Square square, King myKing, King yourKing, StraightLineMove straightLineMove) {
-        super(owner, square, myKing, yourKing);
+    public Rook(Player owner, Square square, StraightLineMove straightLineMove) {
+        super(owner, square);
         this.straightLineMove = straightLineMove;
     }
 
