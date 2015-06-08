@@ -51,7 +51,7 @@ public class SimpleMove implements ChessMove {
         moveOnBoard(board);
     }
 
-    protected void moveOnBoard(Board board) {
+    private void moveOnBoard(Board board) {
         Piece pieceAt = board.getPieceAt(dest);
         if (pieceAt != null) {
             pieceAt.markAsTaken(board);
