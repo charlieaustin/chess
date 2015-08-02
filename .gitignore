@@ -15,3 +15,39 @@ hs_err_pid*
 .idea
 gradle
 .gradle
+
+# Python packages
+# Packages
+*.egg
+*.egg-info
+dist
+build
+eggs
+.eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+lib
+lib64
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+htmlcov
+
+# Sphinx
+docs/_build
+
+# Temp gedit files
+*~
+
+# My other folders (chesslytics)
+notebooks
+script
+cookie
+
+*.py[cod]
