@@ -9,8 +9,6 @@ import org.charlie.chess.players.Player;
 public class PawnMove implements ChessMove {
     private final SimpleMove simpleMove;
 
-    private Representation representation;
-
     public PawnMove(SimpleMove simpleMove) {
         this.simpleMove = simpleMove;
     }
@@ -38,12 +36,12 @@ public class PawnMove implements ChessMove {
 
     @Override
     public void setRepresentation(Representation representation) {
-        this.representation = representation;
+        simpleMove.setRepresentation(representation);
     }
 
     @Override
     public String toRepresentation() {
-        return representation.getSquareRepresentation(simpleMove.getDest());
+        return simpleMove.toRepresentation();
     }
 
     @Override

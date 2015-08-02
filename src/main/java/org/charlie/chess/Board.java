@@ -360,22 +360,22 @@ public class Board {
         resetFiftyMoveRule();
     }
 
-    public void addPieceToPlayer(Piece piece, Player ownder) {
-        Set<Piece> pieces1 = pieces.get(ownder);
-        pieces1.add(piece);
+    public void addPieceToPlayer(Piece piece, Player owner) {
+        Set<Piece> ownersPieces = pieces.get(owner);
+        ownersPieces.add(piece);
     }
 
     public void printBoard() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Piece[] row : board) {
-            for (Piece column : row) {
-                if (column == null) {
+            for (Piece pieceOnColumn : row) {
+                if (pieceOnColumn == null) {
                     stringBuilder.append(".");
                 } else {
-                    if (column.isOwnedBy(white)) {
-                        stringBuilder.append(column.stringRepresentation().toLowerCase());
+                    if (pieceOnColumn.isOwnedBy(white)) {
+                        stringBuilder.append(pieceOnColumn.stringRepresentation().toLowerCase());
                     } else {
-                        stringBuilder.append(column.stringRepresentation());
+                        stringBuilder.append(pieceOnColumn.stringRepresentation());
                     }
                 }
             }

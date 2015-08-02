@@ -37,7 +37,9 @@ public class SimpleMove implements ChessMove {
 
     @Override
     public String toRepresentation() {
-        return piece.stringRepresentation() + representation.getSquareRepresentation(dest);
+        String squareRepresentation = representation.getSquareRepresentation(src);
+        String squareRepresentation1 = representation.getSquareRepresentation(dest);
+        return squareRepresentation + squareRepresentation1;
     }
 
     @Override
