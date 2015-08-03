@@ -66,6 +66,12 @@ public class Knight extends BasePiece {
 
     @Override
     public String stringRepresentation() {
-        return "N";
+        return "n";
+    }
+
+    @Override
+    public void move(Square dest) {
+        super.move(dest);
+        updateLocation();
     }
 }

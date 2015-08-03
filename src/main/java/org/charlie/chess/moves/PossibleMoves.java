@@ -26,6 +26,10 @@ public class PossibleMoves implements Iterable<ChessMove> {
         return null;
     }
 
+    public int size() {
+        return possibleMoves.size();
+    }
+
     @Override
     public Iterator<ChessMove> iterator() {
         return possibleMoves.iterator();

@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Representation {
 
-    Map<Integer, String> file = new HashMap<Integer,String>(){{
+    private final Map<Integer, String> file = new HashMap<Integer, String>() {{
         put(0, "a");
         put(1, "b");
         put(2, "c");
@@ -18,19 +18,19 @@ public class Representation {
         put(7, "h");
         
     }};
-    Map<Integer, String> boardMap = new HashMap<Integer, String>(){{
 
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                int arrayIndex = i + 8 * j;
-                String boardLocation = file.get(i) + Integer.toString(j);
+    private final Map<Integer, String> boardMap = new HashMap<Integer, String>() {{
+        for (int j = 0; j < 8; j++) {
+            for (int i = 0; i < 8; i++) {
+                int arrayIndex = i * 8 + j;
+                String boardLocation = file.get(i) + Integer.toString(j + 1);
                 put(arrayIndex, boardLocation);
             }
         }
     }};
 
     public String getSquareRepresentation(Square square) {
-        return boardMap.get(square.getY() + square.getX() * 8);
+        return boardMap.get(square.getX() + square.getY() * 8);
     }
 
     public String getFile(Square square) {

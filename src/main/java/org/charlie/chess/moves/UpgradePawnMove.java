@@ -65,7 +65,7 @@ public class UpgradePawnMove implements ChessMove {
 
     @Override
     public String toRepresentation() {
-        return representation.getSquareRepresentation(dest) + "=" + newPiece.stringRepresentation();
+        return representation.getSquareRepresentation(src) + representation.getSquareRepresentation(dest) + newPiece.stringRepresentation();
     }
 
     @Override

@@ -18,7 +18,6 @@ public class Pawn extends BasePiece {
     private Square right;
     private Square oneInFront;
     private Square twoInFront;
-    private int numberOfMoves = 0;
 
     public Pawn(Player owner, Square currentLocation, PawnDirection pawnDirection) {
         super(owner, currentLocation);
@@ -65,17 +64,12 @@ public class Pawn extends BasePiece {
 
     public void move(Square dest) {
         takenFirstMove = true;
-        if (currentLocation.locationsBetween(dest).size() == 1) {
-            numberOfMoves += 2;
-        }
-
-        numberOfMoves += 1;
         super.move(dest);
         updateLocation();
     }
 
     private void upgradeIfPossible(PossibleMoves possibleMoves, Square dest) {
-        if (numberOfMoves == 6) {
+        if (dest.getX() == 0 || dest.getX() == 7) {
             possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Bishop(owner, dest, new StraightLineMove()), owner));
             possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Knight(owner, dest), owner));
             possibleMoves.addMove(new UpgradePawnMove(currentLocation, dest, this, new Queen(owner, dest, new StraightLineMove()), owner));
@@ -101,6 +95,6 @@ public class Pawn extends BasePiece {
 
     @Override
     public String stringRepresentation() {
-        return "P";
+        return "p";
     }
 }
