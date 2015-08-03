@@ -51,3 +51,6 @@ script
 cookie
 
 *.py[cod]
+
+# fics data files
+fics*

@@ -16,7 +16,7 @@ requirements = [
 ]
 
 test_requirements = [
-    # TODO: put package test requirements here
+    'python-chess==0.9.1'
 ]
 
 setup(
