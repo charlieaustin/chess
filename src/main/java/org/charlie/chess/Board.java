@@ -26,6 +26,7 @@ public class Board {
     private GameResult gameResult;
     private Map<Player, Set<Piece>> pieces = new HashMap<>();
     private int fiftyMoveRule = 0;
+    private int numberOfMoves = 0;
 
 
     public Board(Piece[][] board, Moves moves, Player white, Player black) {
@@ -127,6 +128,7 @@ public class Board {
         chessMove.move(this);
         moves.addLastMove(chessMove);
         fiftyMoveRule += 1;
+        numberOfMoves +=1;
         if (fiftyMoveRule > 100) {
             setHasWinner(null, null);
         }
@@ -210,6 +212,20 @@ public class Board {
                 return rightMostSquare;
             }
             case Forward: {
+                Square bottomMostSquare = new Square(7, src.getY());
+                int distance = Math.abs(src.getX() - bottomMostSquare.getX());
+                for (int i = 0; i < distance; i++) {
+                    Square nextSquare = new Square(src.getX() - i, src.getY());
+                    if (isOpponentsPieceAt(nextSquare, owner)) {
+                        return nextSquare;
+                    }
+                    if (myPieceIsAt(nextSquare, owner)) {
+                        return new Square(nextSquare.getX() + 1, src.getY());
+                    }
+                }
+                return bottomMostSquare;
+            }
+            case Backward: {
                 Square topMostSquare = new Square(0, src.getY());
                 int distance = Math.abs(src.getX() - topMostSquare.getX());
                 for (int i = 0; i < distance; i++) {
@@ -222,20 +238,6 @@ public class Board {
                     }
                 }
                 return topMostSquare;
-            }
-            case Backward: {
-                Square bottomMostSquare = new Square(7, src.getY());
-                int distance = Math.abs(src.getX() - bottomMostSquare.getX());
-                for (int i = 0; i < distance; i++) {
-                    Square nextSquare = new Square(src.getX() + 1, src.getY());
-                    if (isOpponentsPieceAt(nextSquare, owner)) {
-                        return nextSquare;
-                    }
-                    if (myPieceIsAt(nextSquare, owner)) {
-                        return new Square(nextSquare.getX() - 1, src.getY());
-                    }
-                }
-                return bottomMostSquare;
             }
             case ForwardLeft: {
                 int xDist = Math.abs(src.getX() - 0);
@@ -366,14 +368,16 @@ public class Board {
     }
 
     public void printBoard() {
+        System.out.println("numberOfMoves = " + (numberOfMoves + 1)/2);
         StringBuilder stringBuilder = new StringBuilder();
-        for (Piece[] row : board) {
+        for (int i = board.length - 1; i >=0; i--) {
+            Piece[] row = board[i];
             for (Piece pieceOnColumn : row) {
                 if (pieceOnColumn == null) {
                     stringBuilder.append(".");
                 } else {
                     if (pieceOnColumn.isOwnedBy(white)) {
-                        stringBuilder.append(pieceOnColumn.stringRepresentation().toLowerCase());
+                        stringBuilder.append(pieceOnColumn.stringRepresentation().toUpperCase());
                     } else {
                         stringBuilder.append(pieceOnColumn.stringRepresentation());
                     }

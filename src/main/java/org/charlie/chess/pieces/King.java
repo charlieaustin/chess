@@ -102,7 +102,7 @@ public class King extends BasePiece {
 
     @Override
     public String stringRepresentation() {
-        return "K";
+        return "k";
     }
 
     @Override
